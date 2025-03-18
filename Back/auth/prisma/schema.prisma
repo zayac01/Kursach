@@ -14,8 +14,52 @@ datasource db {
 }
 
 model UserModel {
-  id       Int    @id @default(autoincrement())
-  email    String
-  password String
-  name     String
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ads       Ad[] // Defines the one-to-many relation with the Ad model
+}
+
+model Ad {
+  id            Int       @id @default(autoincrement())
+  brand         String
+  model         String
+  year          Int
+  body          String
+  generation    String?
+  engineType    String
+  driveType     String
+  transmission  String
+  engineMod     String
+  color         String
+  mileage       Int
+  options       Json
+  documentType  String
+  owners        Int
+  purchaseDate  DateTime
+  description   String
+  contacts      String
+  inspectionLat Float?
+  inspectionLng Float?
+  price         Float
+  licensePlate  String
+  vin           String
+  sts           String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  userId        Int
+  user          UserModel @relation(fields: [userId], references: [id])
+  images        AdImage[] // Relation to AdImage model
+
+  @@unique([vin, sts, licensePlate])
+}
+
+model AdImage {
+  id   Int    @id @default(autoincrement())
+  url  String
+  adId Int
+  ad   Ad     @relation(fields: [adId], references: [id])
 }

@@ -1,12 +1,28 @@
 
+// declare namespace Express {
+//     export interface Request {
+//         user: string
+//     }
+// }
+
+// declare namespace jsonwebtoken {
+//     export interface JwtPayload {
+//         email: string
+//     }
+// }
+
 declare namespace Express {
     export interface Request {
-        user: string
+      user?: {
+        id: number;
+        email: string;
+      };
     }
-}
-
-declare namespace jsonwebtoken {
+  }
+  
+  declare namespace jsonwebtoken {
     export interface JwtPayload {
-        email: string
+      id: number; // Добавляем id в payload
+      email: string;
     }
-}
+  }
