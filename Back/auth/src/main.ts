@@ -14,6 +14,9 @@ import { UsersRepository } from './users/users.repo';
 import { IUsersRepository } from './users/users.interface.repo';
 import { UserService } from './users/user.service';
 import { IUserService } from './users/user.service.interface';
+import AdsController from './controllers/AdsController';
+import AdsService from './services/AdsService';
+import AdsRepository from './repositories/AdsRepository';
 
 export interface IBootstrapReturn {
 	appContainer: Container;
@@ -28,6 +31,9 @@ export const appBindings = new ContainerModule((options: ContainerModuleLoadOpti
 	options.bind<PrismaService>(TYPES.PrismaService).to(PrismaService).inSingletonScope();
 	options.bind<IConfigService>(TYPES.ConfigService).to(ConfigService).inSingletonScope();
 	options.bind<IUsersRepository>(TYPES.UsersRepository).to(UsersRepository).inSingletonScope();
+	options.bind<AdsController>(TYPES.AdsController).to(AdsController);
+    options.bind<AdsService>(TYPES.AdsService).to(AdsService);
+    options.bind<AdsRepository>(TYPES.AdsRepository).to(AdsRepository);
 	options.bind<App>(TYPES.Application).to(App);
 });
 

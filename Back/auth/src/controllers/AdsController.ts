@@ -19,7 +19,7 @@ export default class AdsController {
   }
 
   private registerRoutes(): void {
-    // Создание объявления с валидацией
+    // Создание объявления с валидацией 
     this.router.post(
       "/",
       new AuthGuard().execute, // Добавляем проверку авторизации
