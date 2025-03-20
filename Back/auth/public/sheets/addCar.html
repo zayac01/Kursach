@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../styles/reset.css">
+    <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+    <section class="header">
+        <div class="container">
+            <nav class="top-menu">
+                <div class="logo">
+                    <img class="img-top-menu" src="../img/LogoVarCar.svg" alt="">
+                </div>
+                <div class="search-block">
+                    <input type="text" placeholder="Хуй">
+                </div>
+                <div class="btn-top-menu">
+                    <div class="btn-block-top-menu">
+                        <button>
+                            <img class="img-top-menu" src="../img/heart.svg" alt="">
+                            Избранное
+                        </button>
+                    </div>
+                    <div class="btn-block-top-menu">
+                        <button>
+                            <img class="img-top-menu" src="../img/left_right_arrows_arrows_icon_253898_1.svg" alt="">
+                            Сравнение
+                        </button>
+                    </div>
+                    <div class="btn-block-top-menu">
+                        <button>
+                            <img class="img-top-menu" src="../img/file_press_article_newsletter_newspaper_document_icon_251842_1.svg" alt="">
+                            Статьи
+                        </button>
+                    </div>
+                    <div class="btn-block-top-menu">
+                        <button>
+                            <img class="img-top-menu" src="../img/Plus.svg" alt="">
+                            Разместить объявление
+                        </button>
+                    </div>
+                </div>
+                <div class="profile">
+                    <img class="img-top-menu" src="../img/ProfileRace.svg" alt="">
+                </div>
+            </nav>
+        </div>
+    </section>
+
+    <section class="addCar">
+        <div class="container">
+            <h1>Создание объявления</h1>
+            <div class="addCar-container">
+                <form class="addCar-form" id="createAdForm" action="/api/ads" method="POST" enctype="multipart/form-data">
+                    <label for="brand">Марка</label>
+                    <input type="text" id="brand" name="brand" required placeholder="Введите марку">
+    
+                    <label for="model">Модель</label>
+                    <input type="text" id="model" name="model" required placeholder="Введите модель">
+    
+                    <label for="year">Год выпуска</label>
+                    <input type="number" id="year" name="year" required placeholder="Введите год выпуска">
+    
+                    <label for="body">Кузов</label>
+                    <input type="text" id="body" name="body" required placeholder="Введите тип кузова">
+    
+                    <label for="generation">Поколение</label>
+                    <select id="generation" name="generation">
+                    <option value="">Выберите поколение</option>
+                    <!-- Элементы заполняются динамически -->
+                    </select>
+    
+                    <label for="engineType">Двигатель</label>
+                    <select id="engineType" name="engineType" required>
+                    <option value="">Выберите тип двигателя</option>
+                    <!-- Например: бензин, дизель, электро, гибрид -->
+                    </select>
+    
+                    <label for="driveType">Привод</label>
+                    <select id="driveType" name="driveType" required>
+                    <option value="">Выберите тип привода</option>
+                    </select>
+    
+                    <label for="transmission">Коробка передач</label>
+                    <select id="transmission" name="transmission" required>
+                    <option value="">Выберите тип коробки передач</option>
+                    </select>
+    
+                    <label for="engineMod">Модификация двигателя</label>
+                    <select id="engineMod" name="engineMod" required>
+                    <option value="">Выберите модификацию</option>
+                    </select>
+    
+                    <label for="color">Цвет</label>
+                    <input type="text" id="color" name="color" required placeholder="Введите цвет">
+    
+                    <label for="mileage">Пробег (км)</label>
+                    <input type="number" id="mileage" name="mileage" required placeholder="Введите пробег">
+    
+                    <label for="options">Опции</label>
+                    <select id="options" name="options" multiple>
+                    <option value="кондиционер">Кондиционер</option>
+                    <option value="abs">ABS</option>
+                    <option value="подушки">Подушки безопасности</option>
+                    </select>
+    
+                    <label for="documentType">Тип документа</label>
+                    <select id="documentType" name="documentType" required>
+                    <option value="оригинал">Оригинал</option>
+                    <option value="дубликат">Дубликат</option>
+                    <option value="нет">Нет ПТС</option>
+                    </select>
+    
+                    <label for="owners">Сколько владельцев</label>
+                    <input type="number" id="owners" name="owners" required placeholder="Введите количество владельцев">
+    
+                    <label for="purchaseDate">Во владении с</label>
+                    <input type="date" id="purchaseDate" name="purchaseDate" required>
+    
+                    <label for="description">Описание</label>
+                    <textarea id="description" name="description" required placeholder="Введите описание"></textarea>
+    
+                    <label for="contacts">Контакты (номер телефона)</label>
+                    <input type="tel" id="contacts" name="contacts" required placeholder="Введите телефон">
+    
+                    <label for="inspectionLat">Место осмотра – Широта</label>
+                    <input type="number" step="any" id="inspectionLat" name="inspectionLat" placeholder="Широта">
+    
+                    <label for="inspectionLng">Место осмотра – Долгота</label>
+                    <input type="number" step="any" id="inspectionLng" name="inspectionLng" placeholder="Долгота">
+    
+                    <label for="price">Цена</label>
+                    <input type="number" step="any" id="price" name="price" required placeholder="Введите цену">
+    
+                    <label for="licensePlate">Госномер</label>
+                    <input type="text" id="licensePlate" name="licensePlate" required placeholder="Введите госномер">
+    
+                    <label for="vin">VIN</label>
+                    <input type="text" id="vin" name="vin" required placeholder="Введите VIN">
+    
+                    <label for="sts">СТС</label>
+                    <input type="text" id="sts" name="sts" required placeholder="Введите номер СТС">
+    
+                    <!-- Фотографии можно добавить позже с использованием Cloudinary или другого сервиса -->
+                    <br><br>
+                    <button class="AnnSubmitBtn" type="submit">Создать объявление</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

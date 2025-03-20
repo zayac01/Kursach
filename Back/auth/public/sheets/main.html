@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>main</title>
+    <link rel="stylesheet" href="../styles/reset.css">
+    <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+    
+    <section class="header">
+        <div class="container">
+            <nav class="top-menu">
+                <div class="logo">
+                    <img class="img-top-menu" src="../img/LogoVarCar.svg" alt="">
+                </div>
+                <div class="search-block">
+                    <input type="text" placeholder="Хуй">
+                </div>
+                <div class="btn-top-menu">
+                    <div class="btn-block-top-menu">
+                        <button>
+                            <img class="img-top-menu" src="../img/heart.svg" alt="">
+                            Избранное
+                        </button>
+                    </div>
+                    <div class="btn-block-top-menu">
+                        <button>
+                            <img class="img-top-menu" src="../img/left_right_arrows_arrows_icon_253898_1.svg" alt="">
+                            Сравнение
+                        </button>
+                    </div>
+                    <div class="btn-block-top-menu">
+                        <button>
+                            <img class="img-top-menu" src="../img/file_press_article_newsletter_newspaper_document_icon_251842_1.svg" alt="">
+                            Статьи
+                        </button>
+                    </div>
+                    <div class="btn-block-top-menu">
+                        <button>
+                            <img class="img-top-menu" src="../img/Plus.svg" alt="">
+                            Разместить объявление
+                        </button>
+                    </div>
+                </div>
+                <div class="profile">
+                    <img class="img-top-menu" src="../img/ProfileRace.svg" alt="">
+                </div>
+            </nav>
+        </div>
+    </section>
+    <!-- <section class="cars">
+        <div class="container">
+            <div class="filters-cards">
+                <section class="main-filter">
+                    <div class="filters">
+                        <div class="filter-type-1">
+                            <div class="name-h3-filter-type-1">
+                                <h3>
+                                    Марка
+                                </h3>
+                            </div>
+                            <div class="input-filter-block-type-1">
+                                <input class="input-filter-type-1" type="text" placeholder="Любая">
+                            </div>
+                        </div>
+                        <div class="filter-type-2">
+                            <div class="name-h3-filter-type-2">
+                                <h3>
+                                    Цена
+                                </h3>
+                            </div>
+                            <div class="input-filter-block-type-2">
+                                <input type="text" placeholder="От">
+                                <input type="text" placeholder="До">
+                            </div>
+                        </div>
+                        <div class="filter-type-2">
+                            <div class="name-h3-filter-type-2">
+                                <h3>
+                                    Год выпуска
+                                </h3>
+                            </div>
+                            <div class="input-filter-block-type-2">
+                                <input type="text" placeholder="От">
+                                <input type="text" placeholder="До">
+                            </div>
+                        </div>
+                        <div class="filter-type-2">
+                            <div class="name-h3-filter-type-2">
+                                <h3>
+                                    Пробег
+                                </h3>
+                            </div>
+                            <div class="input-filter-block-type-2">
+                                <input type="text" placeholder="От">
+                                <input type="text" placeholder="До">
+                            </div>
+                        </div>
+                        <div class="filter-type-1">
+                            <div class="name-h3-filter-type-1">
+                                <h3>
+                                    Коробка передач
+                                </h3>
+                            </div>
+                            <div class="input-filter-block-type-1">
+                                <input class="input-filter-type-1" type="text" placeholder="Любая">
+                            </div>
+                        </div>
+                        <div class="filter-type-1">
+                            <div class="name-h3-filter-type-1">
+                                <h3>
+                                    Привод
+                                </h3>
+                            </div>
+                            <div class="input-filter-block-type-1">
+                                <input class="input-filter-type-1" type="text" placeholder="Любая">
+                            </div>
+                        </div>
+                        <div class="filter-type-1">
+                            <div class="name-h3-filter-type-1">
+                                <h3>
+                                    Тип двигателя
+                                </h3>
+                            </div>
+                            <div class="input-filter-block-type-1">
+                                <input class="input-filter-type-1" type="text" placeholder="Любая">
+                            </div>
+                        </div>
+                        <div class="filter-type-2">
+                            <div class="name-h3-filter-type-2">
+                                <h3>
+                                    Объем двигателя
+                                </h3>
+                            </div>
+                            <div class="input-filter-block-type-2">
+                                <input type="text" placeholder="От">
+                                <input type="text" placeholder="До">
+                            </div>
+                        </div>
+                        <div class="filter-type-2">
+                            <div class="name-h3-filter-type-2">
+                                <h3>
+                                    Мощность
+                                </h3>
+                            </div>
+                            <div class="input-filter-block-type-2">
+                                <input type="text" placeholder="От">
+                                <input type="text" placeholder="До">
+                            </div>
+                        </div>
+                        <div class="filter-type-2">
+                            <div class="name-h3-filter-type-2">
+                                <h3>
+                                    Расход топлива 
+                                </h3>
+                            </div>
+                            <div class="input-filter-block-type-2">
+                                <input type="text" placeholder="От">
+                                <input type="text" placeholder="До">
+                            </div>
+                        </div>
+                        <div class="filter-type-2">
+                            <div class="name-h3-filter-type-2">
+                                <h3>
+                                    Разгон до 100км\ч
+                                </h3>
+                            </div>
+                            <div class="input-filter-block-type-2">
+                                <input type="text" placeholder="От">
+                                <input type="text" placeholder="До">
+                            </div>
+                        </div>
+                        <div class="filter-type-2">
+                            <div class="name-h3-filter-type-2">
+                                <h3>
+                                    Кол-во владельцев
+                                </h3>
+                            </div>
+                            <div class="input-filter-block-type-2">
+                                <input type="text" placeholder="От">
+                                <input type="text" placeholder="До">
+                            </div>
+                        </div>
+                        <div class="filter-type-1">
+                            <div class="name-h3-filter-type-1">
+                                <h3>
+                                    Кол-во мест
+                                </h3>
+                            </div>
+                            <div class="input-filter-block-type-1">
+                                <input class="input-filter-type-1" type="text" placeholder="Любая">
+                            </div>
+                        </div>
+                        <div class="filter-type-1">
+                            <div class="name-h3-filter-type-1">
+                                <h3>
+                                    Тип кузова
+                                </h3>
+                            </div>
+                            <div class="input-filter-block-type-1">
+                                <input class="input-filter-type-1" type="text" placeholder="Любая">
+                            </div>
+                        </div>
+                        <div class="filter-type-1">
+                            <div class="name-h3-filter-type-1">
+                                <h3>
+                                    Руль
+                                </h3>
+                            </div>
+                            <div class="input-filter-block-type-1">
+                                <input class="input-filter-type-1" type="text" placeholder="Любая">
+                            </div>
+                        </div>
+                        <div class="filter-type-1">
+                            <div class="name-h3-filter-type-1">
+                                <h3>
+                                    Цвет
+                                </h3>
+                            </div>
+                            <div class="input-filter-block-type-1">
+                                <input class="input-filter-type-1" type="text" placeholder="Любая">
+                            </div>
+                        </div>
+                        <div class="ready-btn-block">
+                            <button>Показать</button>
+                        </div>
+                    </div>
+                </section>
+                <section class="cards">
+                    <div class="container">
+                        <div class="offers">
+                            <div class="offer">
+                                <div class="img-block-offer">
+                                    <img src="../img/CarImg.jpg" alt="">
+                                </div>
+                                <div class="name-block-offer">
+                                    <h3>
+                                        Audi
+                                    </h3>
+                                </div>
+                                <div class="about-block-offer">
+                                    <p>
+                                        engine
+                                    </p>
+                                </div>
+                                <div class="price-block-offer">
+                                    <h3>
+                                        200
+                                    </h3>
+                                </div>
+                            </div>
+                            <div class="offer">
+                                <div class="img-block-offer">
+                                    <img src="../img/CarImg.jpg" alt="">
+                                </div>
+                                <div class="name-block-offer">
+                                    <h3>
+                                        Audi
+                                    </h3>
+                                </div>
+                                <div class="about-block-offer">
+                                    <p>
+                                        engine
+                                    </p>
+                                </div>
+                                <div class="price-block-offer">
+                                    <h3>
+                                        200
+                                    </h3>
+                                </div>
+                            </div>
+                            <div class="offer">
+                                <div class="img-block-offer">
+                                    <img src="../img/CarImg.jpg" alt="">
+                                </div>
+                                <div class="name-block-offer">
+                                    <h3>
+                                        Audi
+                                    </h3>
+                                </div>
+                                <div class="about-block-offer">
+                                    <p>
+                                        engine
+                                    </p>
+                                </div>
+                                <div class="price-block-offer">
+                                    <h3>
+                                        200
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <section class="selected-card-sec">
+                <div class="selected-card">
+                    <div class="name-and-cost-selected-card-block">
+                        <div class="name-selected-card">
+                            <h1>
+                                Audi A4, 2004
+                            </h1>
+                        </div>
+                        <div class="cost-of-selected-card">
+                            <h1>
+                                600 000
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="img-selected-card-block">
+                        <img src="" alt="">
+                    </div>
+                    <div class="btn-selected-card-block">
+                        <button>Показать телефон</button>
+                    </div>
+                    <div class="char-selected-card-block">
+                        <div class="char-selected-card-block-name">
+                            <h1 class="char-name">Характеристики</h1>
+                        </div>
+                        <div class="char-selected-card-block-value">
+                            <div class="char-value-column">
+                                <div class="char-value-rows">
+                                    1:1
+                                </div>
+                                <div class="char-value-rows">
+                                    1:1
+                                </div>
+                                <div class="char-value-rows">
+                                    1:1
+                                </div>
+                                <div class="char-value-rows">
+                                    1:1
+                                </div>
+                                <div class="char-value-rows">
+                                    1:1
+                                </div>
+                            </div>
+                            <div class="char-value-column">
+                                <div class="char-value-rows">
+                                    1:1
+                                </div>
+                                <div class="char-value-rows">
+                                    1:1
+                                </div>
+                                <div class="char-value-rows">
+                                    1:1
+                                </div>
+                                <div class="char-value-rows">
+                                    1:1
+                                </div>
+                                <div class="char-value-rows">
+                                    1:1
+                                </div>
+                            </div>
+                            <div class="char-value-column">
+                                <div class="char-value-rows">
+                                    1:1
+                                </div>
+                                <div class="char-value-rows">
+                                    1:1
+                                </div>
+                                <div class="char-value-rows">
+                                    1:1
+                                </div>
+                                <div class="char-value-rows">
+                                    1:1
+                                </div>
+                                <div class="char-value-rows">
+                                    1:1
+                                </div>
+                            </div>
+                            <div class="char-value-column">
+                                <div class="char-value-rows">
+                                    1:1
+                                </div>
+                                <div class="char-value-rows">
+                                    1:1
+                                </div>
+                                <div class="char-value-rows">
+                                    1:1
+                                </div>
+                                <div class="char-value-rows">
+                                    1:1
+                                </div>
+                                <div class="char-value-rows">
+                                    1:1
+                                </div>
+                            </div>
+                            <div class="char-value-column">
+                                <div class="char-value-rows">
+                                    1:1
+                                </div>
+                                <div class="char-value-rows">
+                                    1:1
+                                </div>
+                                <div class="char-value-rows">
+                                    1:1
+                                </div>
+                                <div class="char-value-rows">
+                                    1:1
+                                </div>
+                                <div class="char-value-rows">
+                                    1:1
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="map-selected-card-block">
+
+                    </div>
+                    <div class="about-selected-card-block">
+                        
+                    </div>
+                </div>
+            </section>
+            
+        </div>
+    </section> -->
+    <!-- <section class="registr">
+        <div class="rigistr-window">
+            <div class="registr-logo">
+                <img src="../img/LogoVarCar.svg" alt="">
+            </div>
+            <div class="name-block">
+                <h1>
+                    Вход\Регистрация
+                </h1>
+            </div>
+            <div class="email-block">
+                <input type="text" placeholder="Email">
+            </div>
+            <div class="password-block">
+                <input type="text" placeholder="Password">
+            </div>
+            <div class="btn-block">
+                <button>
+                    Далее
+                </button>
+            </div>
+
+        </div>
+    </section> -->
+
+    <!-- <section class="main">
+        <div class="container">
+            <div class="ads">
+                <div class="name-ads-block">
+                    <h1>Топовые предложения</h1>
+                </div>
+                <div class="picture-ads-block">
+                    <img src="../img/chery.png" alt="">
+                </div>
+            </div>
+            <div class="newCars-block">
+                <div class="name-newCars-block">
+                    <h1>Новые объявления</h1>
+                </div>
+                <div class="newCars-cards-block">
+                    <div class="offers-newCars">
+                        <div class="offer-newCars">
+                            <div class="img-block-offer">
+                                <img src="../img/CarImg.jpg" alt="">
+                            </div>
+                            <div class="name-block-offer">
+                                <h3>
+                                    Audi
+                                </h3>
+                            </div>
+                            <div class="about-block-offer">
+                                <p>
+                                    engine
+                                </p>
+                            </div>
+                            <div class="price-block-offer">
+                                <h3>
+                                    200
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="offer-newCars">
+                            <div class="img-block-offer">
+                                <img src="../img/CarImg.jpg" alt="">
+                            </div>
+                            <div class="name-block-offer">
+                                <h3>
+                                    Audi
+                                </h3>
+                            </div>
+                            <div class="about-block-offer">
+                                <p>
+                                    engine
+                                </p>
+                            </div>
+                            <div class="price-block-offer">
+                                <h3>
+                                    200
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="offer-newCars">
+                            <div class="img-block-offer">
+                                <img src="../img/CarImg.jpg" alt="">
+                            </div>
+                            <div class="name-block-offer">
+                                <h3>
+                                    Audi
+                                </h3>
+                            </div>
+                            <div class="about-block-offer">
+                                <p>
+                                    engine
+                                </p>
+                            </div>
+                            <div class="price-block-offer">
+                                <h3>
+                                    200
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="offer-newCars">
+                            <div class="img-block-offer">
+                                <img src="../img/CarImg.jpg" alt="">
+                            </div>
+                            <div class="name-block-offer">
+                                <h3>
+                                    Audi
+                                </h3>
+                            </div>
+                            <div class="about-block-offer">
+                                <p>
+                                    engine
+                                </p>
+                            </div>
+                            <div class="price-block-offer">
+                                <h3>
+                                    200
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="offer-newCars">
+                            <div class="img-block-offer">
+                                <img src="../img/CarImg.jpg" alt="">
+                            </div>
+                            <div class="name-block-offer">
+                                <h3>
+                                    Audi
+                                </h3>
+                            </div>
+                            <div class="about-block-offer">
+                                <p>
+                                    engine
+                                </p>
+                            </div>
+                            <div class="price-block-offer">
+                                <h3>
+                                    200
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="offer-newCars">
+                            <div class="img-block-offer">
+                                <img src="../img/CarImg.jpg" alt="">
+                            </div>
+                            <div class="name-block-offer">
+                                <h3>
+                                    Audi
+                                </h3>
+                            </div>
+                            <div class="about-block-offer">
+                                <p>
+                                    engine
+                                </p>
+                            </div>
+                            <div class="price-block-offer">
+                                <h3>
+                                    200
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="offer-newCars">
+                            <div class="img-block-offer">
+                                <img src="../img/CarImg.jpg" alt="">
+                            </div>
+                            <div class="name-block-offer">
+                                <h3>
+                                    Audi
+                                </h3>
+                            </div>
+                            <div class="about-block-offer">
+                                <p>
+                                    engine
+                                </p>
+                            </div>
+                            <div class="price-block-offer">
+                                <h3>
+                                    200
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="offer-newCars">
+                            <div class="img-block-offer">
+                                <img src="../img/CarImg.jpg" alt="">
+                            </div>
+                            <div class="name-block-offer">
+                                <h3>
+                                    Audi
+                                </h3>
+                            </div>
+                            <div class="about-block-offer">
+                                <p>
+                                    engine
+                                </p>
+                            </div>
+                            <div class="price-block-offer">
+                                <h3>
+                                    200
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="offer-newCars">
+                            <div class="img-block-offer">
+                                <img src="../img/CarImg.jpg" alt="">
+                            </div>
+                            <div class="name-block-offer">
+                                <h3>
+                                    Audi
+                                </h3>
+                            </div>
+                            <div class="about-block-offer">
+                                <p>
+                                    engine
+                                </p>
+                            </div>
+                            <div class="price-block-offer">
+                                <h3>
+                                    200
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="allCars-btn-block">
+                    <button>Больше...</button>
+                </div>
+            </div>
+            <div class="articles">
+                <div class="name-articles-block">
+                    <h1>Обсуждения</h1>
+                </div>
+                <div class="articles-cards-block">
+                    <div class="article-card">
+                        <div class="img-article-block">
+                            <img src="../img/articleImg.png" alt="">
+                        </div>
+                        <div class="name-article-block">
+                            <h1>
+                                Первый тест Soueast S09: полный привод, правильный «автомат» и 7 мест за 4 миллиона
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="allArticles-btn-block">
+                    <button>Больше...</button>
+                </div>
+            </div>
+        </div>
+    </section> -->
+</body>
+</html>

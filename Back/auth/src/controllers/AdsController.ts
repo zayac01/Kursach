@@ -101,30 +101,6 @@ export default class AdsController {
     );
   }
 
-  // private async createAd(req: Request, res: Response, next: NextFunction): Promise<void> {
-  //   try {
-  //     const userId = req.user?.id;
-  //     if (!userId) {
-  //       res.status(401).json({ error: "Unauthorized" });
-  //       return;
-  //     }
-  //     const data: CreateAdDTO = {
-  //       ...req.body,
-  //       options: Array.isArray(req.body.options) ? req.body.options : [req.body.options],
-  //       purchaseDate: new Date(req.body.purchaseDate),
-  //       userId: userId,
-  //     };
-  //     const ad = await this.adsService.createAd(data);
-  //     res.status(201).json(ad);
-  //   } catch (error) {
-  //     if (error.message === "Объявление с такими VIN, СТС и госномером уже существует") {
-  //       res.status(409).json({ error: error.message });
-  //     } else {
-  //       next(error);
-  //     }
-  //   }
-  // } до chatgpt
-
   private async createAd(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const userId = req.user?.id;
@@ -136,23 +112,23 @@ export default class AdsController {
         ...req.body,
         options: Array.isArray(req.body.options) ? req.body.options : [req.body.options],
         purchaseDate: new Date(req.body.purchaseDate),
-        userId: userId
+        userId: userId,
       };
       const ad = await this.adsService.createAd(data);
       res.status(201).json(ad);
     } catch (error) {
       if (error instanceof Error) {
-        // Например, если обнаружен дубликат объявления
         if (error.message === "Объявление с такими VIN, СТС и госномером уже существует") {
           res.status(409).json({ error: error.message });
         } else {
           next(error);
         }
       } else {
-        next(new Error("Неизвестная ошибка при создании объявления"));
+        next(new Error("Неизвестная ошибка"));
       }
     }
-  } // после chatgpt
+  }
+
 
 
   private async getAdById(req: Request, res: Response, next: NextFunction): Promise<void> {

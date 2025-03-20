@@ -44,15 +44,18 @@ export class UserController extends BaseController implements IUserController {
 		]);
 	}
 
-	async login(req: Request<{}, {}, UserLoginDto>, res: Response, next: NextFunction): Promise<void> {
+	async login(
+		req: Request<{}, {}, UserLoginDto>,
+		res: Response,
+		next: NextFunction,
+	): Promise<void> {
 		const result = await this.userService.validateUser(req.body);
 		if (!result) {
-		  return next(new HTTPError(401, 'ошибка авторизации', 'login'));
+			return next(new HTTPError(401, 'ошибка авторизации', 'login'));
 		}
-		const user = await this.userService.getUserInfo(req.body.email);
-		const jwt = await this.signJWT(req.body.email, this.configService.get('SECRET'), user!.id);
+		const jwt = await this.signJWT(req.body.email, this.configService.get('SECRET'));
 		this.ok(res, { jwt });
-	  }
+	}
 
 	async register(
 		{ body }: Request<{}, {}, UserRegisterDto>,
@@ -66,39 +69,32 @@ export class UserController extends BaseController implements IUserController {
 		this.ok(res, { email: result.email, id: result.id });
 	}
 
-	// async info({ user }: Request, res: Response, next: NextFunction): Promise<void> {
-	// 	const userInfo = await this.userService.getUserInfo(user);
-	// 	this.ok(res, { email: userInfo?.email, id: userInfo?.id });
-	// } // до chatgpt
-
 	async info({ user }: Request, res: Response, next: NextFunction): Promise<void> {
 		if (!user) {
-		  res.status(401).json({ error: "Пользователь не авторизован" });
-		  return;
+			return next(new HTTPError(401, 'Пользователь не авторизован'));
 		}
 		const userInfo = await this.userService.getUserInfo(user.email);
 		this.ok(res, { email: userInfo?.email, id: userInfo?.id });
-	  } // chatgpt
+	}
 
-	private signJWT(email: string, secret: string, userId: number): Promise<string> {
+	private signJWT(email: string, secret: string): Promise<string> {
 		return new Promise<string>((resolve, reject) => {
-		  sign(
-			{
-			  id: userId, // Добавляем id в токен
-			  email,
-			  iat: Math.floor(Date.now() / 1000),
-			},
-			secret,
-			{
-			  algorithm: 'HS256',
-			},
-			(err, token) => {
-			  if (err) {
-				reject(err);
-			  }
-			  resolve(token as string);
-			}
-		  );
+			sign(
+				{
+					email,
+					iat: Math.floor(Date.now() / 1000),
+				},
+				secret,
+				{
+					algorithm: 'HS256',
+				},
+				(err, token) => {
+					if (err) {
+						reject(err);
+					}
+					resolve(token as string);
+				},
+			);
 		});
-	  }
+	}
 }

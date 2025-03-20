@@ -1,24 +1,31 @@
 import { IMiddleware } from './middleware.interface';
 import { NextFunction, Request, Response } from 'express';
 import { JwtPayload, verify } from 'jsonwebtoken';
+import { promisify } from 'util';
+
+const verifyAsync = promisify(verify);
 
 export class AuthMiddleware implements IMiddleware {
-  constructor(private secret: string) {}
+    constructor(private secret: string) {}
 
-  execute(req: Request, res: Response, next: NextFunction): void {
-    if (req.headers.authorization) {
-      const token = req.headers.authorization.split(' ')[1];
-      verify(token, this.secret, (err, payload) => {
-        if (err || !payload || typeof payload !== 'object' || !('id' in payload) || !('email' in payload)) {
-          return next(); // Если токен недействителен, пользователь не аутентифицирован
+    execute(req: Request, res: Response, next: NextFunction): void {
+        const token = req.headers.authorization?.split(' ')[1];
+        if (!token) {
+            return res.status(401).json({ error: 'Токен отсутствует' });
         }
-        req.user = { id: (payload as JwtPayload).id, email: (payload as JwtPayload).email };
-        next();
-      });
-    } else {
-      next();
+        verifyAsync(token, this.secret)
+            .then((payload) => {
+                if (payload && typeof payload === 'object' && 'id' in payload && 'email' in payload) {
+                    req.user = { id: payload.id, email: payload.email };
+                    next();
+                } else {
+                    return res.status(401).json({ error: 'Невалидный токен' });
+                }
+            })
+            .catch(() => {
+                return res.status(401).json({ error: 'Невалидный токен' });
+            });
     }
-  }
 }
 
     // execute(req: Request, res: Response, next: NextFunction): void {
