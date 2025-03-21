@@ -9,12 +9,22 @@ export class AuthMiddleware implements IMiddleware {
     constructor(private secret: string) {}
 
     execute(req: Request, res: Response, next: NextFunction): void {
+        // Пропускаем публичные маршруты
+        if (req.path === '/users/register' || req.path === '/users/login') {
+            return next();
+        }
+
         const token = req.headers.authorization?.split(' ')[1];
         if (!token) {
             res.status(401).json({ error: 'Токен отсутствует' });
             return;
         }
-        verifyAsync(token, this.secret) // 1
+        const verifyWithSecret = (token: string, callback: (err: any, decoded: any) => void) => {
+            verify(token, this.secret, callback);
+        };
+        const verifyAsync = promisify(verifyWithSecret);
+
+        verifyAsync(token)
             .then((payload: JwtPayload | string) => {
                 if (typeof payload === 'object' && 'id' in payload && 'email' in payload) {
                     req.user = { id: payload.id, email: payload.email };
