@@ -12,6 +12,7 @@ import { UserController } from './users/user.controller';
 import { PrismaService } from './database/prisma.service';
 import { AuthMiddleware } from './command/auth.middleware';
 import cors from 'cors';
+import path from 'path';
 
 @injectable()
 export class App {
@@ -27,17 +28,24 @@ export class App {
 		@inject(TYPES.PrismaService) private prismaService: PrismaService,
 	) {
 		this.app = express();
-		this.port = 8000;
+		this.port = 5500;
 	}
 
 	useMiddleware(): void {
-		this.app.use(cors({ origin: 'http://127.0.0.1:5500' }));
+		this.app.use(cors({ origin: 'http://127.0.0.1:5500' })); // 1
 		this.app.use(json());
 		const authMiddleware = new AuthMiddleware(this.configService.get('SECRET'));
 		this.app.use(authMiddleware.execute.bind(authMiddleware));
 	}
 
+	useStaticFiles(): void { // 1
+        this.app.use(express.static(path.join(__dirname, '..', 'public')));
+    } // 1
+
 	useRoutes(): void {
+		this.app.get('/', (req, res) => { // 1
+            res.sendFile(path.join(__dirname, '..', 'public', 'sheets','auth.html'));
+        }); // 1
 		this.app.use('/users', this.userController.router);
 	}
 
@@ -47,6 +55,7 @@ export class App {
 
 	public async init(): Promise<void> {
 		this.useMiddleware();
+		this.useStaticFiles(); // 1
 		this.useRoutes();
 		this.useExeptionFilters();
 		await this.prismaService.connect();

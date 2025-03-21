@@ -3,27 +3,28 @@ import { NextFunction, Request, Response } from 'express';
 import { JwtPayload, verify } from 'jsonwebtoken';
 import { promisify } from 'util';
 
-const verifyAsync = promisify(verify);
-
+const verifyAsync: (token: string, secret: string) => Promise<JwtPayload | string> = promisify(verify);
+// 1
 export class AuthMiddleware implements IMiddleware {
     constructor(private secret: string) {}
 
     execute(req: Request, res: Response, next: NextFunction): void {
         const token = req.headers.authorization?.split(' ')[1];
         if (!token) {
-            return res.status(401).json({ error: 'Токен отсутствует' });
+            res.status(401).json({ error: 'Токен отсутствует' });
+            return;
         }
-        verifyAsync(token, this.secret)
-            .then((payload) => {
-                if (payload && typeof payload === 'object' && 'id' in payload && 'email' in payload) {
+        verifyAsync(token, this.secret) // 1
+            .then((payload: JwtPayload | string) => {
+                if (typeof payload === 'object' && 'id' in payload && 'email' in payload) {
                     req.user = { id: payload.id, email: payload.email };
                     next();
                 } else {
-                    return res.status(401).json({ error: 'Невалидный токен' });
+                    res.status(401).json({ error: 'Невалидный токен' });
                 }
             })
             .catch(() => {
-                return res.status(401).json({ error: 'Невалидный токен' });
+                res.status(401).json({ error: 'Невалидный токен' });
             });
     }
 }
