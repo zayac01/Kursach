@@ -52,53 +52,53 @@
 
     <section class="addCar">
         <div class="container">
-            <h1>Создание объявления</h1>
             <div class="addCar-container">
+                <h1>Создание объявления</h1>
                 <form class="addCar-form" id="createAdForm" action="/api/ads" method="POST" enctype="multipart/form-data">
-                    <label for="brand">Марка</label>
-                    <input type="text" id="brand" name="brand" required placeholder="Введите марку">
+                    <!-- <label for="brand">Марка</label> -->
+                    <input type="text" id="brand" name="brand" required placeholder="Марка">
     
-                    <label for="model">Модель</label>
-                    <input type="text" id="model" name="model" required placeholder="Введите модель">
+                    <!-- <label for="model">Модель</label> -->
+                    <input type="text" id="model" name="model" required placeholder="Модель">
     
-                    <label for="year">Год выпуска</label>
-                    <input type="number" id="year" name="year" required placeholder="Введите год выпуска">
+                    <!-- <label for="year">Год выпуска</label> -->
+                    <input type="text" id="year" name="year" required placeholder="Год выпуска">
     
-                    <label for="body">Кузов</label>
-                    <input type="text" id="body" name="body" required placeholder="Введите тип кузова">
+                    <!-- <label for="body">Кузов</label> -->
+                    <input type="text" id="body" name="body" required placeholder="Тип кузова">
     
-                    <label for="generation">Поколение</label>
+                    <!-- <label for="generation">Поколение</label> -->
                     <select id="generation" name="generation">
-                    <option value="">Выберите поколение</option>
+                    <option value="">Поколение</option>
                     <!-- Элементы заполняются динамически -->
                     </select>
     
-                    <label for="engineType">Двигатель</label>
+                    <!-- <label for="engineType">Двигатель</label> -->
                     <select id="engineType" name="engineType" required>
-                    <option value="">Выберите тип двигателя</option>
+                    <option value="">Тип двигателя</option>
                     <!-- Например: бензин, дизель, электро, гибрид -->
                     </select>
     
-                    <label for="driveType">Привод</label>
+                    <!-- <label for="driveType">Привод</label> -->
                     <select id="driveType" name="driveType" required>
-                    <option value="">Выберите тип привода</option>
+                    <option value="">Тип привода</option>
                     </select>
     
-                    <label for="transmission">Коробка передач</label>
+                    <!-- <label for="transmission">Коробка передач</label> -->
                     <select id="transmission" name="transmission" required>
-                    <option value="">Выберите тип коробки передач</option>
+                    <option value="">Тип коробки передач</option>
                     </select>
     
-                    <label for="engineMod">Модификация двигателя</label>
+                    <!-- <label for="engineMod">Модификация двигателя</label> -->
                     <select id="engineMod" name="engineMod" required>
-                    <option value="">Выберите модификацию</option>
+                    <option value="">Модификация</option>
                     </select>
     
-                    <label for="color">Цвет</label>
-                    <input type="text" id="color" name="color" required placeholder="Введите цвет">
+                    <!-- <label for="color">Цвет</label> -->
+                    <input type="text" id="color" name="color" required placeholder="Цвет">
     
-                    <label for="mileage">Пробег (км)</label>
-                    <input type="number" id="mileage" name="mileage" required placeholder="Введите пробег">
+                    <!-- <label for="mileage">Пробег (км)</label> -->
+                    <input type="text" id="mileage" name="mileage" required placeholder="Пробег">
     
                     <label for="options">Опции</label>
                     <select id="options" name="options" multiple>
@@ -114,39 +114,39 @@
                     <option value="нет">Нет ПТС</option>
                     </select>
     
-                    <label for="owners">Сколько владельцев</label>
-                    <input type="number" id="owners" name="owners" required placeholder="Введите количество владельцев">
+                    <!-- <label for="owners">Сколько владельцев</label> -->
+                    <input type="text" id="owners" name="owners" required placeholder="Количество владельцев">
     
-                    <label for="purchaseDate">Во владении с</label>
+                    <!-- <label for="purchaseDate">Во владении с</label> -->
                     <input type="date" id="purchaseDate" name="purchaseDate" required>
     
-                    <label for="description">Описание</label>
-                    <textarea id="description" name="description" required placeholder="Введите описание"></textarea>
+                    <!-- <label for="description">Описание</label> -->
+                    <textarea id="description" name="description" required placeholder="Описание"></textarea>
     
-                    <label for="contacts">Контакты (номер телефона)</label>
-                    <input type="tel" id="contacts" name="contacts" required placeholder="Введите телефон">
+                    <!-- <label for="contacts">Контакты (номер телефона)</label> -->
+                    <input type="text" id="contacts" name="contacts" required placeholder="Телефон">
     
-                    <label for="inspectionLat">Место осмотра – Широта</label>
-                    <input type="number" step="any" id="inspectionLat" name="inspectionLat" placeholder="Широта">
+                    <!-- <label for="inspectionLat">Место осмотра – Широта</label> -->
+                    <!-- <input type="number" step="any" id="inspectionLat" name="inspectionLat" placeholder="Широта"> -->
     
-                    <label for="inspectionLng">Место осмотра – Долгота</label>
-                    <input type="number" step="any" id="inspectionLng" name="inspectionLng" placeholder="Долгота">
+                    <!-- <label for="inspectionLng">Место осмотра – Долгота</label> -->
+                    <!-- <input type="number" step="any" id="inspectionLng" name="inspectionLng" placeholder="Долгота"> -->
     
-                    <label for="price">Цена</label>
-                    <input type="number" step="any" id="price" name="price" required placeholder="Введите цену">
+                    <!-- <label for="price">Цена</label> -->
+                    <input type="text" step="any" id="price" name="price" required placeholder="Цена">
     
-                    <label for="licensePlate">Госномер</label>
-                    <input type="text" id="licensePlate" name="licensePlate" required placeholder="Введите госномер">
+                    <!-- <label for="licensePlate">Госномер</label> -->
+                    <input type="text" id="licensePlate" name="licensePlate" required placeholder="Ггосномер">
     
-                    <label for="vin">VIN</label>
-                    <input type="text" id="vin" name="vin" required placeholder="Введите VIN">
+                    <!-- <label for="vin">VIN</label> -->
+                    <input type="text" id="vin" name="vin" required placeholder="VIN">
     
-                    <label for="sts">СТС</label>
-                    <input type="text" id="sts" name="sts" required placeholder="Введите номер СТС">
+                    <!-- <label for="sts">СТС</label> -->
+                    <input type="text" id="sts" name="sts" required placeholder="Номер СТС">
     
                     <!-- Фотографии можно добавить позже с использованием Cloudinary или другого сервиса -->
                     <br><br>
-                    <button class="AnnSubmitBtn" type="submit">Создать объявление</button>
+                    <button class="AnnSubmitBtn first-type-of-btn" type="submit">Создать объявление</button>
                 </form>
             </div>
         </div>
