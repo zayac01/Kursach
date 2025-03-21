@@ -28,7 +28,12 @@ button {
   background-color: transparent;
   color: #fff;
   cursor: pointer;
+  transition: transform 1s 0.5s;
 }
+
+/* button:hover {
+  background-color: #36b2ff;
+} */
 
 input[type="text"]:focus-visible {
   outline: 2px solid var(--accent-color);
@@ -39,6 +44,25 @@ input {
   border: none;
   background-color: transparent;
   color: #fff;
+}
+
+.first-type-of-btn {
+  height: var(--input-height);
+  background-color: var(--accent-color);
+  color: var(--primary-color);
+  border-radius: var(--border-radius);
+  width: 100%;
+  padding: 10px;
+  transition: transform 0.2s 0.1s;
+}
+
+.first-type-of-btn:hover {
+  transform: scale(0.9);
+}
+
+.first-type-of-btn:active {
+  transition: background-color 0.05s;
+  background-color: #36b2ff;
 }
 
 .main {
@@ -206,12 +230,12 @@ input {
   display: grid;
 }
 
-.ready-btn-block button {
+/* .ready-btn-block button {
   height: 44px;
   background-color: #ff8336;
   color: #000;
   border-radius: 5px;
-}
+} */
 
 .cards {
   display: grid;
@@ -348,11 +372,11 @@ input {
   max-width: 310px;
 }
 
-.btn-selected-card-block button {
+/* .btn-selected-card-block button {
   background-color: #ff8336;
   border-radius: 5px;
   width: 100%;
-}
+} */
 
 .char-selected-card-block {
   display: grid;
@@ -438,16 +462,16 @@ box-shadow: 0px 0px 20px 0px rgba(34, 60, 80, 0.34);
   padding: 15px;
 }
 
-.registr-window button {
+/* .registr-window button {
   padding: 10px;
   max-height: 44px;
   max-width: 70px;
   background-color: #ff8336;
   color: #000;
   border-radius: 5px;
-}
+} */
 
-.registr-form {
+.registr-form, .login-form {
   display: grid;
   gap: 10px;
 }
@@ -475,7 +499,7 @@ box-shadow: 0px 0px 20px 0px rgba(34, 60, 80, 0.34);
   max-width: 70px;
 }
 
-.name-block {
+.name-block-registr, .name-block-login {
   display: grid;
   justify-items: center;
 }
@@ -546,15 +570,18 @@ box-shadow: 0px 0px 20px 0px rgba(34, 60, 80, 0.34);
 /* .wrap > * grid-column 1 / -1 grid-row 1 / -1 */
 
 .name-newCars-block {
+  text-align: center;
 }
 .newCars-cards-block {
 }
 .allCars-btn-block {
 }
 .articles {
+  margin-top: 80px;
+  display: grid;
+  gap: 30px;
 }
 .name-articles-block {
-  margin-top: 60px;
   margin-bottom: 20px;
   text-align: center;
 }
@@ -600,11 +627,11 @@ box-shadow: 0px 0px 20px 0px rgba(34, 60, 80, 0.34);
   font-size: 26px;
 }
 
-.AnnSubmitBtn {
+/* .AnnSubmitBtn {
   width: 100px;
   height: 50px;
   background-color: #ff8336;
-}
+} */
 
 .window-message {
   display: grid;
@@ -683,4 +710,134 @@ box-shadow: 0px 0px 20px 0px rgba(34, 60, 80, 0.34);
 
 .type-of-message.fail span {
   color: red;
+}
+
+.orLogin, .orRegistr {
+  display: grid;
+  margin-top: 20px;
+  justify-items: center;
+  align-items: center;
+  gap: 15px;
+}
+
+div#preload {
+  margin: auto;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  z-index: 9999999;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+#preload {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.sk-folding-cube {
+  top: 50%;
+  left: 50%;
+  margin-left: -25px;
+  margin-top: -25px;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  -webkit-transform: rotateZ(45deg);
+  transform: rotateZ(45deg);
+}
+
+.sk-folding-cube .sk-cube {
+  float: left;
+  width: 50%;
+  height: 50%;
+  position: relative;
+  -webkit-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
+.sk-folding-cube .sk-cube2 {
+  -webkit-transform: scale(1.1) rotateZ(90deg);
+  transform: scale(1.1) rotateZ(90deg);
+}
+
+.sk-folding-cube .sk-cube4 {
+  -webkit-transform: scale(1.1) rotateZ(270deg);
+  transform: scale(1.1) rotateZ(270deg);
+}
+
+.sk-folding-cube .sk-cube3 {
+  -webkit-transform: scale(1.1) rotateZ(180deg);
+  transform: scale(1.1) rotateZ(180deg);
+}
+
+.sk-folding-cube .sk-cube:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-animation: sk-foldCubeAngle 2.4s infinite linear both;
+  animation: sk-foldCubeAngle 2.4s infinite linear both;
+  -webkit-transform-origin: 100% 100%;
+  -ms-transform-origin: 100% 100%;
+  transform-origin: 100% 100%;
+  background: #ffb606;
+}
+
+.sk-folding-cube .sk-cube2:before {
+  -webkit-animation-delay: .3s;
+  animation-delay: .3s;
+}
+
+.sk-folding-cube .sk-cube4:before {
+  -webkit-animation-delay: .9s;
+  animation-delay: .9s;
+}
+
+.sk-folding-cube .sk-cube3:before {
+  -webkit-animation-delay: .6s;
+  animation-delay: .6s;
+}
+
+@keyframes sk-foldCubeAngle {
+  0%, 10% {
+      -webkit-transform: perspective(140px) rotateX(-180deg);
+      transform: perspective(140px) rotateX(-180deg);
+      opacity: 0;
+  }
+  25%, 75% {
+      -webkit-transform: perspective(140px) rotateX(0);
+      transform: perspective(140px) rotateX(0);
+      opacity: 1;
+  }
+  90%, 100% {
+      -webkit-transform: perspective(140px) rotateY(180deg);
+      transform: perspective(140px) rotateY(180deg);
+      opacity: 0;
+  }
+}
+
+
+.name-block-registr, .registr-form, .orLogin, .name-block-login, .login-form, .orRegistr {
+  display: none;
+}
+
+/* Показываем активные элементы */
+.name-block-registr.active, .registr-form.active, .orLogin.active, 
+.name-block-login.active, .login-form.active, .orRegistr.active {
+  display: grid;
 }
