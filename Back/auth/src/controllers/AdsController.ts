@@ -104,32 +104,42 @@ export default class AdsController {
 
   private async createAd(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const userId = req.user?.id;
-      if (!userId) {
-        res.status(401).json({ error: "Unauthorized" });
-        return;
-      }
-      const data: CreateAdDTO = {
-        ...req.body,
-        options: Array.isArray(req.body.options) ? req.body.options : [req.body.options],
-        purchaseDate: new Date(req.body.purchaseDate),
-        userId: userId,
-      };
-      const files = req.files as Express.Multer.File[];
-      const ad = await this.adsService.createAd(data, files);
-      res.status(201).json(ad);
-    } catch (error) {
-      if (error instanceof Error) {
-        if (error.message === "Объявление с такими VIN, СТС и госномером уже существует") {
-          res.status(409).json({ error: error.message });
-        } else {
-          next(error);
+        const userId = req.user?.id;
+        if (!userId) {
+            res.status(401).json({ error: "Unauthorized" });
+            return;
         }
-      } else {
-        next(new Error("Неизвестная ошибка"));
-      }
+
+        const { images, ...adData } = req.body; // Извлекаем URL изображений (если есть) и остальные данные
+        const files = req.files as Express.Multer.File[] | undefined; // Файлы из multer (если есть)
+
+        const data: CreateAdDTO = {
+            ...adData,
+            options: Array.isArray(adData.options) ? adData.options : [adData.options],
+            purchaseDate: new Date(adData.purchaseDate),
+            userId: userId,
+        };
+
+        // Проверяем, что переданы либо файлы, либо URL изображений
+        if ((!files || files.length === 0) && (!images || !Array.isArray(images) || !images.every(url => typeof url === 'string'))) {
+            res.status(400).json({ error: "Необходимо передать либо файлы, либо массив URL изображений" });
+            return;
+        }
+
+        const ad = await this.adsService.createAd(data, files, images);
+        res.status(201).json(ad);
+    } catch (error) {
+        if (error instanceof Error) {
+            if (error.message === "Объявление с такими VIN, СТС и госномером уже существует") {
+                res.status(409).json({ error: error.message });
+            } else {
+                next(error);
+            }
+        } else {
+            next(new Error("Неизвестная ошибка"));
+        }
     }
-  }
+}
 
 
 

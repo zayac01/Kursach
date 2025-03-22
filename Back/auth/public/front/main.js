@@ -126,6 +126,7 @@ loginForm.addEventListener('submit', async (event) => {
         const data = await response.json();
 
         if (response.ok) {
+            localStorage.setItem('token', data.jwt);
             showMessage('Success!', 'Вход успешен');
             preload.style.display = 'flex'; // Показываем прелоадер
             setTimeout(() => {

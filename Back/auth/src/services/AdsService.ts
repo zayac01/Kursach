@@ -24,24 +24,38 @@ export default class AdsService {
         });
     }
 
-    async createAd(data: CreateAdDTO, files: Express.Multer.File[]): Promise<Ad> {
-        const existingAd = await this.adsRepository.getAdByUniqueFields(data.vin, data.sts, data.licensePlate);
-        if (existingAd) {
-            throw new Error("Объявление с такими VIN, СТС и госномером уже существует");
-        }
+    async createAd(data: CreateAdDTO, files?: Express.Multer.File[], imageUrls?: string[]): Promise<Ad> {
+      const existingAd = await this.adsRepository.getAdByUniqueFields(data.vin, data.sts, data.licensePlate);
+      if (existingAd) {
+          throw new Error("Объявление с такими VIN, СТС и госномером уже существует");
+      }
 
-        // Загружаем изображения на ImageKit
-        const imageUrls = await this.uploadImages(files);
+      // Определяем итоговый массив URL изображений
+      let finalImageUrls: string[] = [];
 
-        // Создаем объявление с URL изображений
-        const adData = {
-            ...data,
-            images: {
-                create: imageUrls.map(url => ({ url })),
-            },
-        };
-        return await this.adsRepository.createAd(adData);
-    }
+      // Если переданы файлы, загружаем их через ImageKit
+      if (files && files.length > 0) {
+          finalImageUrls = await this.uploadImages(files);
+      }
+      // Если переданы URL, используем их
+      if (imageUrls && imageUrls.length > 0) {
+          finalImageUrls = [...finalImageUrls, ...imageUrls];
+      }
+
+      // Если нет ни файлов, ни URL, бросаем ошибку
+      if (finalImageUrls.length === 0) {
+          throw new Error("Необходимо передать хотя бы одно изображение");
+      }
+
+      // Создаем объявление с URL изображений
+      const adData = {
+          ...data,
+          images: {
+              create: finalImageUrls.map(url => ({ url })),
+          },
+      };
+      return await this.adsRepository.createAd(adData);
+  }
 
     private async uploadImages(files: Express.Multer.File[]): Promise<string[]> {
         const uploadPromises = files.map(file => {

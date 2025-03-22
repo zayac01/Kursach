@@ -1,13 +1,7 @@
-// addCar.js
-import { showMessage } from './MessageManager/message';
-
-// Класс для обработки формы
 class AdFormHandler {
     constructor(formId, preloadId) {
         this.form = document.getElementById(formId);
         this.preload = document.getElementById(preloadId);
-        console.log('Форма:', this.form); // Должна вывести элемент формы
-        console.log('Прелоадер:', this.preload);
         this.initializeEventListeners();
     }
 
@@ -21,44 +15,93 @@ class AdFormHandler {
 
     async handleSubmit(event) {
         event.preventDefault();
-        console.log('Форма отправлена, стандартное поведение предотвращено');
         this.preload.style.display = 'flex'; // Показываем прелоадер
 
-        const formData = new FormData(this.form);
         const token = localStorage.getItem('token');
-        console.log('Токен:', token);
         if (!token) {
-            showMessage('Fail:(', 'Необходимо авторизоваться');
+            alert('Необходимо авторизоваться');
             this.preload.style.display = 'none';
-            console.log('Токен отсутствует, сообщение должно появиться');
             return;
         }
 
+        // Получаем параметры аутентификации от сервера
+        let authParams;
         try {
-            console.log('Отправка запроса на сервер');
+            const response = await fetch('http://localhost:5500/auth');
+            authParams = await response.json();
+        } catch (error) {
+            alert('Не удалось получить параметры аутентификации');
+            this.preload.style.display = 'none';
+            return;
+        }
+
+        // Настраиваем ImageKit
+        const imagekit = new ImageKit({
+            publicKey: 'public_c3jSvrlv3iH5+hdRLooMtczaVqc=', // Замените на ваш публичный ключ
+            urlEndpoint: 'https://ik.imagekit.io/your_imagekit_id/'
+        });
+
+        // Получаем файлы из формы
+        const fileInput = this.form.querySelector('input[type="file"]');
+        const files = fileInput?.files;
+        if (!files || files.length === 0) {
+            alert('Выберите хотя бы одно изображение');
+            this.preload.style.display = 'none';
+            return;
+        }
+
+        // Загружаем изображения в ImageKit
+        const uploadPromises = Array.from(files).map(file => {
+            return new Promise((resolve, reject) => {
+                imagekit.upload({
+                    file: file,
+                    fileName: file.name,
+                    token: authParams.token,
+                    signature: authParams.signature,
+                    expire: authParams.expire,
+                    folder: '/VarCar-Img'
+                }, (err, result) => {
+                    if (err) reject(err);
+                    else resolve(result.url);
+                });
+            });
+        });
+
+        try {
+            const imageUrls = await Promise.all(uploadPromises);
+            console.log('Изображения загружены:', imageUrls);
+
+            // Собираем данные формы
+            const formData = new FormData(this.form);
+            const adData = {};
+            formData.forEach((value, key) => {
+                adData[key] = value;
+            });
+            adData.images = imageUrls; // Добавляем массив URL изображений
+
+            // Отправляем данные на сервер
             const response = await fetch('http://localhost:5500/api/ads', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
                 },
-                body: formData,
+                body: JSON.stringify(adData)
             });
-            console.log('Статус ответа:', response.status);
-            const data = await response.json();
 
             if (response.ok) {
-                showMessage('Success!', 'Объявление успешно создано');
+                alert('Объявление успешно создано');
                 setTimeout(() => {
                     window.location.href = 'main.html';
                 }, 2000);
             } else {
-                console.log('Ошибка от сервера:', data);
-                showMessage('Fail:(', data.error || 'Ошибка при создании объявления');
-                this.preload.style.display = 'none';
+                const data = await response.json();
+                alert(data.error || 'Ошибка при создании объявления');
             }
         } catch (error) {
-            console.error('Ошибка в запросе:', error);
-            showMessage('Fail:(', 'Ошибка сервера');
+            console.error('Ошибка:', error);
+            alert('Ошибка сервера');
+        } finally {
             this.preload.style.display = 'none';
         }
     }

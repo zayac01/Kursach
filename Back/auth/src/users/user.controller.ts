@@ -53,7 +53,7 @@ export class UserController extends BaseController implements IUserController {
 		if (!result) {
 			return next(new HTTPError(401, 'ошибка авторизации', 'login'));
 		}
-		const jwt = await this.signJWT(req.body.email, this.configService.get('SECRET'));
+		const jwt = await this.signJWT(result.email, result.id, this.configService.get('SECRET'));
 		this.ok(res, { jwt });
 	}
 
@@ -77,11 +77,12 @@ export class UserController extends BaseController implements IUserController {
 		this.ok(res, { email: userInfo?.email, id: userInfo?.id });
 	}
 
-	private signJWT(email: string, secret: string): Promise<string> {
+	private signJWT(email: string, id: number, secret: string): Promise<string> {
 		return new Promise<string>((resolve, reject) => {
 			sign(
 				{
 					email,
+					id,
 					iat: Math.floor(Date.now() / 1000),
 				},
 				secret,

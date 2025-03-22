@@ -14,12 +14,14 @@ import { AuthMiddleware } from './command/auth.middleware';
 import cors from 'cors';
 import path from 'path';
 import AdsController from './controllers/AdsController';
+import ImageKit from 'imagekit';
 
 @injectable()
 export class App {
 	app: Express;
 	server: Server;
 	port: number;
+	private imagekit: ImageKit;
 
 	constructor(
 		@inject(TYPES.ILogger) private logger: ILogger,
@@ -31,6 +33,12 @@ export class App {
 	) {
 		this.app = express();
 		this.port = 5500;
+
+		this.imagekit = new ImageKit({
+            publicKey: this.configService.get('PUBLIC_KEY'),
+            privateKey: this.configService.get('PRIVATE_KEY'),
+            urlEndpoint: this.configService.get('URL_ENDPOINT'),
+        });
 	}
 
 	useMiddleware(): void {
@@ -49,6 +57,7 @@ export class App {
             res.sendFile(path.join(__dirname, '..', 'public', 'sheets','auth.html'));
         }); // 1
 		this.app.use('/users', this.userController.router);
+		this.app.use('/ads', this.adsController.router);
 	}
 
 	useExeptionFilters(): void {
