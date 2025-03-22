@@ -8,13 +8,16 @@ import { CreateAdDTO } from "../dtos/CreateAdDTO";
 import { UpdateAdDTO } from "../dtos/UpdateAdDTO";
 import { validateRequest } from "../middlewares/validateRequest";
 import { AuthGuard } from "../command/auth.guard";
+import multer from "multer";
 
 @injectable()
 export default class AdsController {
   public router: Router;
+  private upload: multer.Multer;
 
   constructor(@inject(TYPES.AdsService) private adsService: AdsService) {
     this.router = Router();
+    this.upload = multer({ storage: multer.memoryStorage() });
     this.registerRoutes();
   }
 
@@ -22,13 +25,12 @@ export default class AdsController {
     // Создание объявления с валидацией 
     this.router.post(
       "/",
+      this.upload.array('images'),
       new AuthGuard().execute, // Добавляем проверку авторизации
       [
         body("brand").isString().notEmpty().withMessage("Марка обязательна"),
         body("model").isString().notEmpty().withMessage("Модель обязательна"),
-        body("year")
-          .isInt({ min: 1886 })
-          .withMessage("Год выпуска должен быть числом, начиная с 1886"),
+        body("year").isInt({ min: 1886 }).withMessage("Год выпуска должен быть числом, начиная с 1886"),
         body("body").isString().notEmpty().withMessage("Кузов обязательный"),
         body("engineType").isString().notEmpty().withMessage("Тип двигателя обязателен"),
         body("driveType").isString().notEmpty().withMessage("Тип привода обязателен"),
@@ -48,7 +50,6 @@ export default class AdsController {
         body("sts").isString().notEmpty().withMessage("Номер СТС обязателен"),
         body("inspectionLat").optional().isFloat().withMessage("Широта должна быть числом"),
         body("inspectionLng").optional().isFloat().withMessage("Долгота должна быть числом"),
-        body("brand").isString().notEmpty().withMessage("Марка обязательна"),
       ],
       validateRequest,
       this.createAd.bind(this)
@@ -99,7 +100,7 @@ export default class AdsController {
       validateRequest,
       this.deleteAd.bind(this)
     );
-  }
+}
 
   private async createAd(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
@@ -114,7 +115,8 @@ export default class AdsController {
         purchaseDate: new Date(req.body.purchaseDate),
         userId: userId,
       };
-      const ad = await this.adsService.createAd(data);
+      const files = req.files as Express.Multer.File[];
+      const ad = await this.adsService.createAd(data, files);
       res.status(201).json(ad);
     } catch (error) {
       if (error instanceof Error) {

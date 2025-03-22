@@ -13,6 +13,7 @@ import { PrismaService } from './database/prisma.service';
 import { AuthMiddleware } from './command/auth.middleware';
 import cors from 'cors';
 import path from 'path';
+import AdsController from './controllers/AdsController';
 
 @injectable()
 export class App {
@@ -23,6 +24,7 @@ export class App {
 	constructor(
 		@inject(TYPES.ILogger) private logger: ILogger,
 		@inject(TYPES.UserController) private userController: UserController,
+		@inject(TYPES.AdsController) private adsController: AdsController,
 		@inject(TYPES.ExeptionFilter) private exeptionFilter: IExeptionFilter,
 		@inject(TYPES.ConfigService) private configService: IConfigService,
 		@inject(TYPES.PrismaService) private prismaService: PrismaService,

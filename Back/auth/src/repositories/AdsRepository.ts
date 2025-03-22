@@ -6,79 +6,71 @@ import { UpdateAdDTO } from "../dtos/UpdateAdDTO";
 
 @injectable()
 export default class AdsRepository {
-  private prisma: PrismaClient;
+    private prisma: PrismaClient;
 
-  constructor() {
-    this.prisma = new PrismaClient();
-  }
+    constructor() {
+        this.prisma = new PrismaClient();
+    }
 
-  async getAdByUniqueFields(vin: string, sts: string, licensePlate: string): Promise<Ad | null> {
-    return await this.prisma.ad.findFirst({
-      where: { vin, sts, licensePlate },
-    });
-  }
+    async getAdByUniqueFields(vin: string, sts: string, licensePlate: string): Promise<Ad | null> {
+        return await this.prisma.ad.findFirst({
+            where: { vin, sts, licensePlate },
+        });
+    }
 
-  async createAd(data: CreateAdDTO): Promise<Ad> {
-    return await this.prisma.ad.create({
-      data: {
-        brand: data.brand,
-        model: data.model,
-        year: data.year,
-        body: data.body,
-        generation: data.generation,
-        engineType: data.engineType,
-        driveType: data.driveType,
-        transmission: data.transmission,
-        engineMod: data.engineMod,
-        color: data.color,
-        mileage: data.mileage,
-        options: data.options,
-        documentType: data.documentType,
-        owners: data.owners,
-        purchaseDate: data.purchaseDate,
-        description: data.description,
-        contacts: data.contacts,
-        inspectionLat: data.inspectionLat,
-        inspectionLng: data.inspectionLng,
-        price: data.price,
-        licensePlate: data.licensePlate,
-        vin: data.vin,
-        sts: data.sts,
-        userId: data.userId,
-      },
-    });
-  }
+    async createAd(data: any): Promise<Ad> {
+        return await this.prisma.ad.create({
+            data: {
+                brand: data.brand,
+                model: data.model,
+                year: data.year,
+                body: data.body,
+                generation: data.generation,
+                engineType: data.engineType,
+                driveType: data.driveType,
+                transmission: data.transmission,
+                engineMod: data.engineMod,
+                color: data.color,
+                mileage: data.mileage,
+                options: data.options,
+                documentType: data.documentType,
+                owners: data.owners,
+                purchaseDate: data.purchaseDate,
+                description: data.description,
+                contacts: data.contacts,
+                price: data.price,
+                licensePlate: data.licensePlate,
+                vin: data.vin,
+                sts: data.sts,
+                userId: data.userId,
+                images: data.images,
+            },
+        });
+    }
 
-  async getAdById(id: number): Promise<Ad | null> {
-    return await this.prisma.ad.findUnique({
-      where: { id },
-    });
-  }
+    async getAdById(id: number): Promise<Ad | null> {
+        return await this.prisma.ad.findUnique({ where: { id } });
+    }
 
-  async listAds(
-    filter: any,
-    sort: any,
-    skip: number,
-    take: number
-  ): Promise<Ad[]> {
-    return await this.prisma.ad.findMany({
-      where: filter,
-      orderBy: sort,
-      skip: skip,
-      take: take,
-    });
-  }
+    async listAds(filter: any, sort: any, skip: number, take: number): Promise<Ad[]> {
+        return await this.prisma.ad.findMany({
+            where: filter,
+            orderBy: sort,
+            skip: skip,
+            take: take,
+        });
+    }
 
-  async updateAd(id: number, data: UpdateAdDTO): Promise<Ad> {
-    return await this.prisma.ad.update({
-      where: { id },
-      data: data,
-    });
-  }
+    async updateAd(id: number, data: UpdateAdDTO): Promise<Ad> {
+        return await this.prisma.ad.update({
+            where: { id },
+            data: data,
+        });
+    }
 
-  async deleteAd(id: number): Promise<Ad> {
-    return await this.prisma.ad.delete({
-      where: { id },
-    });
-  }
+    async deleteAd(id: number): Promise<Ad> {
+        return await this.prisma.ad.delete({
+            where: { id },
+        });
+    }
 }

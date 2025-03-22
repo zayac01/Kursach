@@ -866,11 +866,14 @@ div#preload {
 .addCar-form input {
     border-radius: 5px;
     height: 44px;
-    background-color: #d9d9d9;
+    /* background-color: #d9d9d9; */
+    border: 2px solid var(--light-gray);
+    background-color: #fff;
 }
 
 .addCar-form input::placeholder {
-  font-weight: 500;
+  font-weight: 100;
+  color: #a4a4a4;
   /* padding: 15px; */
 }
 
@@ -878,6 +881,14 @@ div#preload {
   box-sizing: border-box;
   padding-left: 15px;
   color:#ff8336;
+}
+
+#description {
+  max-width: 750px;
+  max-height: 600px;
+  min-width: 450px;
+  min-height: 150px;
+  padding: 10px;
 }
 
 

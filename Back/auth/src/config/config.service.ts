@@ -11,6 +11,7 @@ export class ConfigService implements IConfigService {
 		const result: DotenvConfigOutput = config();
 		if (result.error) {
 			this.logger.error('[ConfigService] Не удалось прочитать файл .env или он отсутствует');
+			throw new Error('ConfigService: Failed to load .env file');
 		} else {
 			this.logger.log('[ConfigService] Конфигурация .env загружена');
 			this.config = result.parsed as DotenvParseOutput;
@@ -18,6 +19,14 @@ export class ConfigService implements IConfigService {
 	}
 
 	get(key: string): string {
-		return this.config[key];
+		if (!this.config) {
+			throw new Error('[ConfigService] Конфигурация не загружена')
+			// this.logger.error('[ConfigService] Конфигурация не загружена');
+		}
+		const value = this.config[key];
+		if (value === undefined) {
+			this.logger.warn(`[ConfigService] Переменная ${key} не найдена в .env`);
+		}
+		return value;
 	}
 }
