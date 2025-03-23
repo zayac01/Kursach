@@ -1,3 +1,4 @@
+import ImageKit from "imagekit";
 class AdFormHandler {
     constructor(formId, preloadId) {
         this.form = document.getElementById(formId);
@@ -7,7 +8,7 @@ class AdFormHandler {
 
     initializeEventListeners() {
         if (!this.form) {
-            console.error('Форма не найдена!');
+            // Форма не найдена, просто выходим, обработка ошибки опциональна
             return;
         }
         this.form.addEventListener('submit', this.handleSubmit.bind(this));
@@ -19,7 +20,7 @@ class AdFormHandler {
 
         const token = localStorage.getItem('token');
         if (!token) {
-            alert('Необходимо авторизоваться');
+            // Токен отсутствует, выходим (можно добавить свою обработку)
             this.preload.style.display = 'none';
             return;
         }
@@ -30,7 +31,7 @@ class AdFormHandler {
             const response = await fetch('http://localhost:5500/auth');
             authParams = await response.json();
         } catch (error) {
-            alert('Не удалось получить параметры аутентификации');
+            // Ошибка получения параметров, выходим (можно добавить обработку)
             this.preload.style.display = 'none';
             return;
         }
@@ -38,14 +39,14 @@ class AdFormHandler {
         // Настраиваем ImageKit
         const imagekit = new ImageKit({
             publicKey: 'public_c3jSvrlv3iH5+hdRLooMtczaVqc=', // Замените на ваш публичный ключ
-            urlEndpoint: 'https://ik.imagekit.io/your_imagekit_id/'
+            urlEndpoint: 'https://ik.imagekit.io/m3eeklh9r/VarCar-Img'
         });
 
         // Получаем файлы из формы
         const fileInput = this.form.querySelector('input[type="file"]');
         const files = fileInput?.files;
         if (!files || files.length === 0) {
-            alert('Выберите хотя бы одно изображение');
+            // Файлы не выбраны, выходим (можно добавить обработку)
             this.preload.style.display = 'none';
             return;
         }
@@ -69,7 +70,6 @@ class AdFormHandler {
 
         try {
             const imageUrls = await Promise.all(uploadPromises);
-            console.log('Изображения загружены:', imageUrls);
 
             // Собираем данные формы
             const formData = new FormData(this.form);
@@ -80,7 +80,7 @@ class AdFormHandler {
             adData.images = imageUrls; // Добавляем массив URL изображений
 
             // Отправляем данные на сервер
-            const response = await fetch('http://localhost:5500/api/ads', {
+            const response = await fetch('http://localhost:5500/ads', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -90,17 +90,20 @@ class AdFormHandler {
             });
 
             if (response.ok) {
-                alert('Объявление успешно создано');
+                // Успешно, перенаправляем без уведомления
+                alert("Успешно")
                 setTimeout(() => {
-                    window.location.href = 'main.html';
+                    window.location.href = '../sheets/main.html';
                 }, 2000);
             } else {
+                alert("Ошибка от сервера")
+
                 const data = await response.json();
-                alert(data.error || 'Ошибка при создании объявления');
+                // Ошибка от сервера, обработка опциональна
             }
         } catch (error) {
-            console.error('Ошибка:', error);
-            alert('Ошибка сервера');
+            alert("Общая ошибка")
+            // Общая ошибка, обработка опциональна
         } finally {
             this.preload.style.display = 'none';
         }

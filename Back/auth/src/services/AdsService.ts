@@ -25,37 +25,66 @@ export default class AdsService {
     }
 
     async createAd(data: CreateAdDTO, files?: Express.Multer.File[], imageUrls?: string[]): Promise<Ad> {
-      const existingAd = await this.adsRepository.getAdByUniqueFields(data.vin, data.sts, data.licensePlate);
-      if (existingAd) {
-          throw new Error("Объявление с такими VIN, СТС и госномером уже существует");
-      }
+        // Проверка на существование объявления
+        const existingAd = await this.adsRepository.getAdByUniqueFields(data.vin, data.sts, data.licensePlate);
+        if (existingAd) {
+            throw new Error("Объявление с такими VIN, СТС и госномером уже существует");
+        }
 
-      // Определяем итоговый массив URL изображений
-      let finalImageUrls: string[] = [];
+        const yearValue = typeof data.year === 'string' ? data.year : String(data.year);
+        const parsedYear = parseInt(yearValue, 10);
+        const mileageValue = typeof data.mileage === 'string' ? data.mileage : String(data.mileage);
+        const parsedMileage = parseInt(mileageValue, 10);
+        const ownersValue = typeof data.owners === 'string' ? data.owners : String(data.owners);
+        const parsedOwners = parseInt(ownersValue, 10);
+        const priceeValue = typeof data.price === 'string' ? data.price : String(data.price);
+        const parsedPricee = parseInt(priceeValue, 10);
 
-      // Если переданы файлы, загружаем их через ImageKit
-      if (files && files.length > 0) {
-          finalImageUrls = await this.uploadImages(files);
-      }
-      // Если переданы URL, используем их
-      if (imageUrls && imageUrls.length > 0) {
-          finalImageUrls = [...finalImageUrls, ...imageUrls];
-      }
 
-      // Если нет ни файлов, ни URL, бросаем ошибку
-      if (finalImageUrls.length === 0) {
-          throw new Error("Необходимо передать хотя бы одно изображение");
-      }
 
-      // Создаем объявление с URL изображений
-      const adData = {
-          ...data,
-          images: {
-              create: finalImageUrls.map(url => ({ url })),
-          },
-      };
-      return await this.adsRepository.createAd(adData);
-  }
+    
+        // Парсинг данных
+        const parsedData: CreateAdDTO = {
+            ...data,
+            year: parsedYear,
+            mileage: parsedMileage,
+            owners: parsedOwners,
+            price: parsedPricee,
+            purchaseDate: new Date(data.purchaseDate),
+        };
+
+        
+    
+        // Валидация преобразований
+        // if (isNaN(parsedData.year)) throw new Error("Некорректное значение для 'year'");
+        // if (isNaN(parsedData.mileage)) throw new Error("Некорректное значение для 'mileage'");
+        // if (isNaN(parsedData.owners)) throw new Error("Некорректное значение для 'owners'");
+        // if (isNaN(parsedData.price)) throw new Error("Некорректное значение для 'price'");
+        // if (isNaN(parsedData.purchaseDate.getTime())) throw new Error("Некорректное значение для 'purchaseDate'");
+    
+        // Обработка изображений
+        let finalImageUrls: string[] = [];
+        if (files && files.length > 0) {
+            finalImageUrls = await this.uploadImages(files);
+        }
+        if (imageUrls && imageUrls.length > 0) {
+            finalImageUrls = [...finalImageUrls, ...imageUrls];
+        }
+        if (finalImageUrls.length === 0) {
+            throw new Error("Необходимо передать хотя бы одно изображение");
+        }
+    
+        // Формирование данных для создания объявления
+        const adData: CreateAdDTO = {
+            ...parsedData,
+            images: {
+                create: finalImageUrls.map(url => ({ url })),
+            },
+        };
+    
+        // Создание объявления
+        return await this.adsRepository.createAd(adData);
+    }
 
     private async uploadImages(files: Express.Multer.File[]): Promise<string[]> {
         const uploadPromises = files.map(file => {

@@ -33,12 +33,19 @@ export class App {
 	) {
 		this.app = express();
 		this.port = 5500;
+		const publicKey = process.env.PUBLIC_KEY;
+		const privateKey = process.env.PRIVATE_KEY;
+		const urlEndpoint = process.env.URL_ENDPOINT;
+
+		if (!publicKey || !privateKey || !urlEndpoint) {
+			throw new Error('Необходимо задать PUBLIC_KEY, PRIVATE_KEY и URL_ENDPOINT в файле .env');
+		}
 
 		this.imagekit = new ImageKit({
-            publicKey: this.configService.get('PUBLIC_KEY'),
-            privateKey: this.configService.get('PRIVATE_KEY'),
-            urlEndpoint: this.configService.get('URL_ENDPOINT'),
-        });
+			publicKey: publicKey,
+			privateKey: privateKey,
+			urlEndpoint: urlEndpoint,
+		});
 	}
 
 	useMiddleware(): void {
@@ -58,6 +65,15 @@ export class App {
         }); // 1
 		this.app.use('/users', this.userController.router);
 		this.app.use('/ads', this.adsController.router);
+		this.app.get('/auth', (req, res) => {
+			try {
+				const authParams = this.imagekit.getAuthenticationParameters();
+				res.json(authParams);
+			} catch (error) {
+				this.logger.error('Ошибка при генерации параметров аутентификации:', error);
+				res.status(500).json({ error: 'Не удалось сгенерировать параметры аутентификации' });
+			}
+		});
 	}
 
 	useExeptionFilters(): void {
