@@ -10,5 +10,8 @@ export const TYPES = {
 	AdsRepository: Symbol.for('AdsRepository'),
 	AdsService: Symbol.for('AdsService'),
 	AdsController: Symbol.for('AdsController'),
+	ProfileController: Symbol.for('ProfileController'),
+	ProfileService: Symbol.for('ProfileService'),
+	ArticlesRepository: Symbol.for('ArticlesRepository'),
 	
 };

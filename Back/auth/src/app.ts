@@ -15,6 +15,7 @@ import cors from 'cors';
 import path from 'path';
 import AdsController from './controllers/AdsController';
 import ImageKit from 'imagekit';
+import { ProfileController } from './profile/profile.controller';
 
 @injectable()
 export class App {
@@ -27,6 +28,7 @@ export class App {
 		@inject(TYPES.ILogger) private logger: ILogger,
 		@inject(TYPES.UserController) private userController: UserController,
 		@inject(TYPES.AdsController) private adsController: AdsController,
+		@inject(TYPES.ProfileController) private profileController: ProfileController,
 		@inject(TYPES.ExeptionFilter) private exeptionFilter: IExeptionFilter,
 		@inject(TYPES.ConfigService) private configService: IConfigService,
 		@inject(TYPES.PrismaService) private prismaService: PrismaService,
@@ -60,11 +62,15 @@ export class App {
     } // 1
 
 	useRoutes(): void {
+		this.app.use('/users', this.userController.router);
+		this.app.use('/ads', this.adsController.router);
 		this.app.get('/', (req, res) => { // 1
             res.sendFile(path.join(__dirname, '..', 'public', 'sheets','auth.html'));
         }); // 1
-		this.app.use('/users', this.userController.router);
-		this.app.use('/ads', this.adsController.router);
+		this.app.use('/', this.profileController.router);
+		this.app.get('/profile', (req, res) => {
+			res.sendFile(path.join(__dirname, '..', 'public', 'profile.html'));
+		});
 		this.app.get('/auth', (req, res) => {
 			try {
 				const authParams = this.imagekit.getAuthenticationParameters();

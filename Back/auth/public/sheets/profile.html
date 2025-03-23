@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Профиль</title>
+  <style>
+    .tabs { display: flex; gap: 10px; margin: 20px 0; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+  </style>
+</head>
+<body>
+  <h1>Профиль</h1>
+  <div id="profile-info"></div>
+  <div class="tabs">
+    <button data-tab="ads">Ваши объявления</button>
+    <button data-tab="articles">Ваши статьи</button>
+    <button data-tab="edit">Редактировать профиль</button>
+  </div>
+  <div id="ads" class="tab-content"></div>
+  <div id="articles" class="tab-content"></div>
+  <div id="edit" class="tab-content">
+    <form id="edit-profile-form">
+      <label>Имя: <input type="text" name="name"></label><br>
+      <label>Email: <input type="email" name="email"></label><br>
+      <button type="submit">Сохранить</button>
+    </form>
+  </div>
+  <script src="../front/profile.js"></script>
+</body>
+</html>

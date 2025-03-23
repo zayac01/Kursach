@@ -26,4 +26,16 @@ export class UsersRepository implements IUsersRepository {
 			},
 		});
 	}
+	async findById(id: number): Promise<UserModel | null> {
+		return this.prismaService.client.userModel.findUnique({
+		  where: { id },
+		});
+	  }
+	  
+	  async update(id: number, data: Partial<UserModel>): Promise<UserModel> {
+		return this.prismaService.client.userModel.update({
+		  where: { id },
+		  data,
+		});
+	  }
 }
