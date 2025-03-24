@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Загрузка формы редактирования
     function loadEditForm() {
       fetch('http://localhost:5500/profile', { headers })
-        .then(response => response.json())
+
         .then(response => {
             if (!response.ok) {
               throw new Error('Ошибка сервера: ' + response.status);
