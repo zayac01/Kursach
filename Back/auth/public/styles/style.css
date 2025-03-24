@@ -894,3 +894,72 @@ div#preload {
 
 .AnnSubmitBtn {
 }
+
+.profile-block {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-columns: auto;
+  grid-auto-flow: column;
+  grid-template-areas: 
+  "img-prof"
+  "profile-info"
+  "btns";
+  background-color: #ffffff;
+  -webkit-box-shadow: 0px 0px 20px 0px rgba(34, 60, 80, 0.34);
+  -moz-box-shadow: 0px 0px 20px 0px rgba(34, 60, 80, 0.34);
+  box-shadow: 0px 0px 20px 0px rgba(34, 60, 80, 0.34);
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  gap: 20px;
+  border-radius: 10px;
+
+}
+
+.img-profile-block {
+  display: grid;
+  grid-area: img-prof;
+}
+.name-profile-block {
+  display: grid;
+  grid-area: profile-info;
+}
+
+.tabs {
+  display: grid;
+  grid-area: btns;
+}
+
+.tab-content {
+
+}
+
+.tabs {
+  display: grid; gap: 10px; margin: 20px 0; 
+}
+.tab-content {
+  display: none; 
+}
+.tab-content.active {
+  display: grid; 
+  gap: 15px;
+  justify-content: center;
+  text-align: center;
+}
+
+.tab-content-block {
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-columns: auto;
+  grid-auto-flow: column;
+  background-color: #ffffff;
+  -webkit-box-shadow: 0px 0px 20px 0px rgba(34, 60, 80, 0.34);
+  -moz-box-shadow: 0px 0px 20px 0px rgba(34, 60, 80, 0.34);
+  box-shadow: 0px 0px 20px 0px rgba(34, 60, 80, 0.34);
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  gap: 20px;
+  border-radius: 10px;
+}

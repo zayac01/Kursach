@@ -3,29 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <title>Профиль</title>
-  <style>
+  <!-- <style>
     .tabs { display: flex; gap: 10px; margin: 20px 0; }
     .tab-content { display: none; }
     .tab-content.active { display: block; }
-  </style>
+  </style> -->
+  <link rel="stylesheet" href="../styles/reset.css">
+    <link rel="stylesheet" href="../styles/style.css">
 </head>
 <body>
-  <h1>Профиль</h1>
-  <div id="profile-info"></div>
-  <div class="tabs">
-    <button data-tab="ads">Ваши объявления</button>
-    <button data-tab="articles">Ваши статьи</button>
-    <button data-tab="edit">Редактировать профиль</button>
-  </div>
-  <div id="ads" class="tab-content"></div>
-  <div id="articles" class="tab-content"></div>
-  <div id="edit" class="tab-content">
-    <form id="edit-profile-form">
-      <label>Имя: <input type="text" name="name"></label><br>
-      <label>Email: <input type="email" name="email"></label><br>
-      <button type="submit">Сохранить</button>
-    </form>
-  </div>
+  <section class="profile">
+    <div class="container">
+      <div class="profile-block">
+        <div class="img-profile-block">
+          <img src="../img/racer_icon_153944.svg" alt="">
+        </div>
+        <div class="name-profile-block">
+          <div id="profile-info"></div>
+        </div>
+        <div class="tabs">
+          <button class="btn-profile first-type-of-btn" data-tab="ads">Ваши объявления</button>
+          <button class="btn-profile first-type-of-btn" data-tab="articles">Ваши статьи</button>
+          <button class="btn-profile first-type-of-btn" data-tab="edit">Редактировать профиль</button>
+        </div>
+      </div>
+      <div class="tab-content-block">
+        <div id="ads" class="tab-content"></div>
+        <div id="articles" class="tab-content"></div>
+        <div id="edit" class="tab-content">
+          <form id="edit-profile-form">
+            <label>Имя: <input type="text" name="name"></label><br>
+            <label>Email: <input type="email" name="email"></label><br>
+            <button type="submit">Сохранить</button>
+          </form>
+      </div>
+    </div>
+    </div>
+  </section>
   <script src="../front/profile.js"></script>
 </body>
 </html>
