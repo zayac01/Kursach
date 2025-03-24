@@ -17,6 +17,7 @@ import { IUserService } from './users/user.service.interface';
 import AdsController from './controllers/AdsController';
 import AdsService from './services/AdsService';
 import AdsRepository from './repositories/AdsRepository';
+import {AdsProfileRepository, IAdsProfileRepository} from './profile/ads.repo'
 import { ProfileController } from './profile/profile.controller';
 import { IProfileService } from './profile/profile.service.interface';
 import { IArticlesRepository } from './articles/articles.interface.repo';
@@ -40,6 +41,7 @@ export const appBindings = new ContainerModule((options: ContainerModuleLoadOpti
     options.bind<AdsService>(TYPES.AdsService).to(AdsService);
     options.bind<AdsRepository>(TYPES.AdsRepository).to(AdsRepository).inSingletonScope();
 	options.bind<IProfileService>(TYPES.ProfileService).to(ProfileService);
+	options.bind<IAdsProfileRepository>(TYPES.AdsProfileRepository).to(AdsProfileRepository)
 	options.bind<ProfileController>(TYPES.ProfileController).to(ProfileController);
 	options.bind<IArticlesRepository>(TYPES.ArticlesRepository).to(ArticlesRepository).inSingletonScope();
 	options.bind<App>(TYPES.Application).to(App);

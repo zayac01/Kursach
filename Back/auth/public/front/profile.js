@@ -15,8 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         return response.json();
       })
-      .then(response => response.json())
       .then(data => {
+        if (!data || !data.name) {
+          throw new Error('Данные профиля не получены');
+        }
         console.log('Данные профиля:', data);
         document.getElementById('profile-info').innerHTML = `Имя: ${data.name}<br>Email: ${data.email}`;
       })
@@ -42,16 +44,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Загрузка объявлений
     function loadAds() {
       fetch('http://localhost:5500/profile/ads', { headers })
-      .then(data => {
-        console.log(data);
-      })
       .then(response => {
         if (!response.ok) {
           throw new Error('Ошибка сервера: ' + response.status);
         }
         return response.json();
       })
-        .then(response => response.json())
         .then(ads => {
           const adsDiv = document.getElementById('ads');
           adsDiv.innerHTML = '<h2>Ваши объявления</h2>' + ads.map(ad => `<p>${ad.brand} ${ad.model} (${ad.year})</p>`).join('');
@@ -68,7 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         return response.json();
       })
-        .then(response => response.json())
         .then(articles => {
           const articlesDiv = document.getElementById('articles');
           articlesDiv.innerHTML = '<h2>Ваши статьи</h2>' + (articles.length ? articles.map(article => `<p>${article.title}</p>`).join('') : '<p>Статей пока нет</p>');

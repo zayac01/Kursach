@@ -14,8 +14,13 @@ import { AuthMiddleware } from './command/auth.middleware';
 import cors from 'cors';
 import path from 'path';
 import AdsController from './controllers/AdsController';
+import {UsersRepository} from './users/users.repo'
 import ImageKit from 'imagekit';
 import { ProfileController } from './profile/profile.controller';
+import { IArticlesRepository } from './articles/articles.interface.repo';
+import { IAdsProfileRepository } from './profile/ads.repo';
+import { IUsersRepository } from './users/users.interface.repo';
+import AdsRepository from './repositories/AdsRepository'
 
 @injectable()
 export class App {
@@ -31,6 +36,10 @@ export class App {
 		@inject(TYPES.ProfileController) private profileController: ProfileController,
 		@inject(TYPES.ExeptionFilter) private exeptionFilter: IExeptionFilter,
 		@inject(TYPES.ConfigService) private configService: IConfigService,
+		@inject(TYPES.UsersRepository) private usersRepository: IUsersRepository,
+		@inject(TYPES.AdsRepository) private adsRepository: AdsRepository,
+		@inject(TYPES.AdsProfileRepository) private adsProfileRepository: IAdsProfileRepository,
+		@inject(TYPES.ArticlesRepository) private articlesRepository: IArticlesRepository,
 		@inject(TYPES.PrismaService) private prismaService: PrismaService,
 	) {
 		this.app = express();
@@ -49,6 +58,7 @@ export class App {
 			urlEndpoint: urlEndpoint,
 		});
 	}
+	
 
 	useMiddleware(): void {
 		this.app.use(cors({ origin: 'http://127.0.0.1:5500' })); // 1

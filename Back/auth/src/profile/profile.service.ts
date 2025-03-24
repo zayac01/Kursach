@@ -2,7 +2,7 @@ import { UserModel } from '@prisma/client';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../types';
 import { IUsersRepository } from '../users/users.interface.repo';
-import { IAdsRepository } from './ads.repo';
+import { AdsProfileRepository, IAdsProfileRepository } from './ads.repo';
 import { IArticlesRepository } from '../articles/articles.interface.repo';
 import { IProfileService, UpdateProfileDto } from './profile.service.interface';
 import { HTTPError } from '../errors/http-error.class';
@@ -11,7 +11,7 @@ import { HTTPError } from '../errors/http-error.class';
 export class ProfileService implements IProfileService {
   constructor(
     @inject(TYPES.UsersRepository) private usersRepository: IUsersRepository,
-    @inject(TYPES.AdsRepository) private adsRepository: IAdsRepository,
+    @inject(TYPES.AdsProfileRepository) private adsProfileRepository: IAdsProfileRepository,
     @inject(TYPES.ArticlesRepository) private articlesRepository: IArticlesRepository,
   ) {}
 
@@ -24,7 +24,7 @@ export class ProfileService implements IProfileService {
   }
 
   async getUserAds(userId: number): Promise<any[]> {
-    return this.adsRepository.findByUserId(userId);
+    return this.adsProfileRepository.findByUserId(userId);
   }
 
   async getUserArticles(userId: number): Promise<any[]> {

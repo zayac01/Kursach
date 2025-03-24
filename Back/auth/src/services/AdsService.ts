@@ -40,8 +40,6 @@ export default class AdsService {
         const priceeValue = typeof data.price === 'string' ? data.price : String(data.price);
         const parsedPricee = parseInt(priceeValue, 10);
 
-
-
     
         // Парсинг данных
         const parsedData: CreateAdDTO = {
@@ -53,15 +51,6 @@ export default class AdsService {
             purchaseDate: new Date(data.purchaseDate),
         };
 
-        
-    
-        // Валидация преобразований
-        // if (isNaN(parsedData.year)) throw new Error("Некорректное значение для 'year'");
-        // if (isNaN(parsedData.mileage)) throw new Error("Некорректное значение для 'mileage'");
-        // if (isNaN(parsedData.owners)) throw new Error("Некорректное значение для 'owners'");
-        // if (isNaN(parsedData.price)) throw new Error("Некорректное значение для 'price'");
-        // if (isNaN(parsedData.purchaseDate.getTime())) throw new Error("Некорректное значение для 'purchaseDate'");
-    
         // Обработка изображений
         let finalImageUrls: string[] = [];
         if (files && files.length > 0) {
