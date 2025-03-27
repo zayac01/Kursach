@@ -159,6 +159,7 @@ export default class AdsController {
 
   private async listAds(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
+      console.log('Запрос к /ads с параметрами:', req.query); // Добавляем отладку
       const { page = 1, pageSize = 10, sortField, sortOrder, ...filters } = req.query;
       const filter: any = {};
       if (filters.brand) filter.brand = String(filters.brand);
@@ -173,8 +174,10 @@ export default class AdsController {
       }
 
       const ads = await this.adsService.listAds(filter, sort, Number(page), Number(pageSize));
+      console.log('Ответ сервера:', ads); // Добавляем отладку
       res.status(200).json(ads);
     } catch (error) {
+      console.error('Ошибка в listAds:', error); // Логируем ошибки
       next(error);
     }
   }

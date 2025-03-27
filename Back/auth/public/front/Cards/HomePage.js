@@ -16,25 +16,57 @@ import { setupFilter } from "./Filter.js";
 let page = 1;
 const pageSize = 10;
 let filters = {};
-function loadAds() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const queryParams = new URLSearchParams(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({ page: String(page), pageSize: String(pageSize) }, (filters.brand && { brand: filters.brand })), (filters.priceFrom && { priceFrom: filters.priceFrom })), (filters.priceTo && { priceTo: filters.priceTo })), (filters.yearFrom && { yearFrom: filters.yearFrom })), (filters.yearTo && { yearTo: filters.yearTo })), (filters.mileageFrom && { mileageFrom: filters.mileageFrom })), (filters.mileageTo && { mileageTo: filters.mileageTo })), (filters.transmission && { transmission: filters.transmission })), (filters.driveType && { driveType: filters.driveType })), (filters.engineType && { engineType: filters.engineType })), (filters.engineVolumeFrom && { engineVolumeFrom: filters.engineVolumeFrom })), (filters.engineVolumeTo && { engineVolumeTo: filters.engineVolumeTo })), (filters.powerFrom && { powerFrom: filters.powerFrom })), (filters.powerTo && { powerTo: filters.powerTo })), (filters.fuelConsumptionFrom && { fuelConsumptionFrom: filters.fuelConsumptionFrom })), (filters.fuelConsumptionTo && { fuelConsumptionTo: filters.fuelConsumptionTo })), (filters.accelerationFrom && { accelerationFrom: filters.accelerationFrom })), (filters.accelerationTo && { accelerationTo: filters.accelerationTo })), (filters.ownersFrom && { ownersFrom: filters.ownersFrom })), (filters.ownersTo && { ownersTo: filters.ownersTo })), (filters.seats && { seats: filters.seats })), (filters.body && { body: filters.body })), (filters.steering && { steering: filters.steering })), (filters.color && { color: filters.color })));
-        const response = yield fetch(`http://localhost:5500/ads?${queryParams}`);
-        console.log(response)
-        // const response = yield fetch(`http://localhost:5500/ads`);
-        if (!response.ok)
+
+
+// async function loadAds() {
+//     try {
+//         const queryParams = new URLSearchParams(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({ page: String(page), pageSize: String(pageSize) }, (filters.brand && { brand: filters.brand })), (filters.priceFrom && { priceFrom: filters.priceFrom })), (filters.priceTo && { priceTo: filters.priceTo })), (filters.yearFrom && { yearFrom: filters.yearFrom })), (filters.yearTo && { yearTo: filters.yearTo })), (filters.mileageFrom && { mileageFrom: filters.mileageFrom })), (filters.mileageTo && { mileageTo: filters.mileageTo })), (filters.transmission && { transmission: filters.transmission })), (filters.driveType && { driveType: filters.driveType })), (filters.engineType && { engineType: filters.engineType })), (filters.engineVolumeFrom && { engineVolumeFrom: filters.engineVolumeFrom })), (filters.engineVolumeTo && { engineVolumeTo: filters.engineVolumeTo })), (filters.powerFrom && { powerFrom: filters.powerFrom })), (filters.powerTo && { powerTo: filters.powerTo })), (filters.fuelConsumptionFrom && { fuelConsumptionFrom: filters.fuelConsumptionFrom })), (filters.fuelConsumptionTo && { fuelConsumptionTo: filters.fuelConsumptionTo })), (filters.accelerationFrom && { accelerationFrom: filters.accelerationFrom })), (filters.accelerationTo && { accelerationTo: filters.accelerationTo })), (filters.ownersFrom && { ownersFrom: filters.ownersFrom })), (filters.ownersTo && { ownersTo: filters.ownersTo })), (filters.seats && { seats: filters.seats })), (filters.body && { body: filters.body })), (filters.steering && { steering: filters.steering })), (filters.color && { color: filters.color })));
+//         const response = await fetch(`http://localhost:5500/ads?${queryParams}`);
+//         if (!response.ok) {
+//             throw new Error('Ошибка загрузки объявлений');
+//         }
+//         const ads = yield response.json();
+//         console.log('Данные с бэкенда:', ads);
+//         const adList = document.querySelector('.ad-list');
+//         if (ads.length === 0)
+//             return; // No more ads to load
+//         ads.forEach(ad => {
+//             const card = (0, createAdCard)(ad, () => showFullAd(ad));
+//             adList === null || adList === void 0 ? void 0 : adList.appendChild(card);
+//         });
+//         page++;
+//         return __awaiter(this, void 0, void 0, function* () {
+//         });
+//     } catch (error) {
+//         console.log('loadAds ', error)
+//     }
+// }
+
+async function loadAds() {
+    try {
+        const queryParams = new URLSearchParams({
+            page: String(page),
+            pageSize: String(pageSize),
+            ...filters
+        });
+        const response = await fetch(`http://localhost:5500/ads?${queryParams}`);
+        if (!response.ok) {
             throw new Error('Ошибка загрузки объявлений');
-        const ads = yield response.json();
+        }
+        const ads = await response.json();
+        console.log('Данные с бэкенда:', ads);
         const adList = document.querySelector('.ad-list');
-        if (ads.length === 0)
-            return; // No more ads to load
+        if (ads.length === 0) return; // No more ads to load
         ads.forEach(ad => {
-            const card = (0, createAdCard)(ad, () => showFullAd(ad));
-            adList === null || adList === void 0 ? void 0 : adList.appendChild(card);
+            const card = createAdCard(ad, () => showFullAd(ad));
+            adList?.appendChild(card);
         });
         page++;
-    });
+    } catch (error) {
+        console.error('loadAds ', error);
+    }
 }
+
 function showFullAd(ad) {
     const fullView = (0, createAdFullView)(ad, () => fullView.remove());
     document.body.appendChild(fullView);

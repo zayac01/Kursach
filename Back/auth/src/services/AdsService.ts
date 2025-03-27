@@ -83,6 +83,7 @@ export default class AdsService {
             });
         });
         const responses = await Promise.all(uploadPromises);
+        console.log('URL изображений от ImageKit:', (res: { url: any; }) => res.url);
         return responses.map((res: { url: any; }) => res.url);
     }
 
