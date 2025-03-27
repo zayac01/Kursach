@@ -21,7 +21,6 @@ export class ConfigService implements IConfigService {
 	get(key: string): string {
 		if (!this.config) {
 			throw new Error('[ConfigService] Конфигурация не загружена')
-			// this.logger.error('[ConfigService] Конфигурация не загружена');
 		}
 		const value = this.config[key];
 		if (value === undefined) {

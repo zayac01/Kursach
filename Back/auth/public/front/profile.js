@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token');
     if (!token) {
-      window.location.href = '/auth.html';
+      window.location.href = 'auth.html';
       return;
     }
   
@@ -76,7 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Загрузка формы редактирования
     function loadEditForm() {
       fetch('http://localhost:5500/profile', { headers })
-
         .then(response => {
             if (!response.ok) {
               throw new Error('Ошибка сервера: ' + response.status);

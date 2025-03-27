@@ -1,0 +1,320 @@
+// src/types/Ad.ts
+export interface Ad {
+    id: number;
+    brand: string;
+    model: string;
+    year: number;
+    body: string;
+    generation?: string;
+    engineType: string;
+    driveType: string;
+    transmission: string;
+    engineMod: string;
+    color: string;
+    mileage: number;
+    options: string[];
+    documentType: string;
+    owners: number;
+    purchaseDate: string;
+    description: string;
+    contacts: string;
+    price: number;
+    licensePlate: string;
+    vin: string;
+    sts: string;
+    createdAt: string;
+    updatedAt: string;
+    userId: number;
+    images: { url: string }[];
+  }
+  
+  // src/modules/AdCard.ts
+  export function createAdCard(ad: Ad, onClick: () => void): HTMLElement {
+    const card = document.createElement('div');
+    card.className = 'ad-card';
+    card.style.cursor = 'pointer';
+    card.style.border = '1px solid #ccc';
+    card.style.padding = '10px';
+    card.style.width = '200px';
+  
+    const firstImage = ad.images[0]?.url || 'placeholder.jpg';
+    const img = document.createElement('img');
+    img.src = firstImage;
+    img.alt = `${ad.brand} ${ad.model}`;
+    img.style.width = '100%';
+    img.style.height = 'auto';
+  
+    const h3 = document.createElement('h3');
+    h3.textContent = `${ad.brand} ${ad.model} ${ad.generation || ''}`;
+  
+    const yearP = document.createElement('p');
+    yearP.textContent = `Год: ${ad.year}`;
+  
+    const mileageP = document.createElement('p');
+    mileageP.textContent = `Пробег: ${ad.mileage} км`;
+  
+    const engineP = document.createElement('p');
+    engineP.textContent = `Двигатель: ${ad.engineMod}`;
+  
+    const driveP = document.createElement('p');
+    driveP.textContent = `Привод: ${ad.driveType}`;
+  
+    const bodyP = document.createElement('p');
+    bodyP.textContent = `Кузов: ${ad.body}`;
+  
+    const steeringP = document.createElement('p');
+    steeringP.textContent = `Руль: ${ad.engineType.includes('right') ? 'Правый' : 'Левый'}`;
+  
+    const priceP = document.createElement('p');
+    priceP.textContent = `Стоимость: ${ad.price} руб.`;
+  
+    card.append(img, h3, yearP, mileageP, engineP, driveP, bodyP, steeringP, priceP);
+    card.addEventListener('click', onClick);
+  
+    return card;
+  }
+  
+  // src/modules/AdFullView.ts
+  export function createAdFullView(ad: Ad, onClose: () => void): HTMLElement {
+    const fullView = document.createElement('div');
+    fullView.className = 'ad-full-view';
+    fullView.style.position = 'fixed';
+    fullView.style.top = '60px'; // Below header
+    fullView.style.left = '0';
+    fullView.style.right = '0';
+    fullView.style.bottom = '0';
+    fullView.style.background = 'white';
+    fullView.style.padding = '20px';
+    fullView.style.overflowY = 'auto';
+  
+    const closeButton = document.createElement('button');
+    closeButton.textContent = 'Закрыть';
+    closeButton.style.position = 'absolute';
+    closeButton.style.top = '10px';
+    closeButton.style.right = '10px';
+    closeButton.addEventListener('click', onClose);
+  
+    const h2 = document.createElement('h2');
+    h2.textContent = `${ad.brand} ${ad.model} ${ad.generation || ''}`;
+  
+    const yearP = document.createElement('p');
+    yearP.textContent = `Год: ${ad.year}`;
+  
+    const priceP = document.createElement('p');
+    priceP.textContent = `Стоимость: ${ad.price} руб.`;
+  
+    const engineP = document.createElement('p');
+    engineP.textContent = `Двигатель: ${ad.engineMod}`;
+  
+    const driveP = document.createElement('p');
+    driveP.textContent = `Привод: ${ad.driveType}`;
+  
+    const bodyP = document.createElement('p');
+    bodyP.textContent = `Кузов: ${ad.body}`;
+  
+    const steeringP = document.createElement('p');
+    steeringP.textContent = `Руль: ${ad.engineType.includes('right') ? 'Правый' : 'Левый'}`;
+  
+    const transmissionP = document.createElement('p');
+    transmissionP.textContent = `Коробка передач: ${ad.transmission}`;
+  
+    const optionsP = document.createElement('p');
+    optionsP.textContent = `Комплектация: ${ad.options.join(', ')}`;
+  
+    const descriptionP = document.createElement('p');
+    descriptionP.textContent = `Описание: ${ad.description}`;
+  
+    const contactsP = document.createElement('p');
+    contactsP.textContent = `Телефон: ${ad.contacts}`;
+  
+    const slider = createSlider(ad.images.slice(0, 11).map(img => img.url));
+  
+    fullView.append(closeButton, h2, yearP, priceP, engineP, driveP, bodyP, steeringP, transmissionP, optionsP, descriptionP, contactsP, slider);
+  
+    return fullView;
+  }
+  
+  // src/modules/Slider.ts
+  function createSlider(images: string[]): HTMLElement {
+    let currentIndex = 0;
+  
+    const slider = document.createElement('div');
+    slider.className = 'slider';
+    slider.style.textAlign = 'center';
+  
+    const prevButton = document.createElement('button');
+    prevButton.textContent = '←';
+    prevButton.style.marginRight = '10px';
+    prevButton.addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      updateMainImage();
+    });
+  
+    const mainImage = document.createElement('img');
+    mainImage.style.width = '600px';
+    mainImage.style.height = '400px';
+  
+    const nextButton = document.createElement('button');
+    nextButton.textContent = '→';
+    nextButton.style.marginLeft = '10px';
+    nextButton.addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % images.length;
+      updateMainImage();
+    });
+  
+    const thumbnails = document.createElement('div');
+    thumbnails.className = 'thumbnails';
+    thumbnails.style.marginTop = '10px';
+  
+    images.forEach((img, index) => {
+      const thumb = document.createElement('img');
+      thumb.src = img;
+      thumb.alt = `Thumbnail ${index}`;
+      thumb.style.width = '100px';
+      thumb.style.height = '60px';
+      thumb.style.margin = '5px';
+      thumb.style.cursor = 'pointer';
+      thumb.addEventListener('click', () => {
+        currentIndex = index;
+        updateMainImage();
+      });
+      thumbnails.appendChild(thumb);
+    });
+  
+    function updateMainImage() {
+      mainImage.src = images[currentIndex];
+      Array.from(thumbnails.children).forEach((thumb, idx) => {
+        thumb.style.border = idx === currentIndex ? '2px solid blue' : '1px solid #ccc';
+      });
+    }
+  
+    slider.append(prevButton, mainImage, nextButton, thumbnails);
+    updateMainImage();
+  
+    return slider;
+  }
+  
+  // src/modules/InfiniteScroll.ts
+  export function setupInfiniteScroll(container: HTMLElement, loadMore: () => Promise<void>) {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        loadMore();
+      }
+    }, { threshold: 1.0 });
+  
+    const sentinel = document.createElement('div');
+    sentinel.style.height = '10px';
+    container.appendChild(sentinel);
+    observer.observe(sentinel);
+  }
+  
+  // src/modules/Filter.ts
+  export function setupFilter(onFilter: (filters: any) => void) {
+    const filterButton = document.querySelector('.ready-btn-block button');
+    filterButton?.addEventListener('click', () => {
+      const filters = {
+        brand: (document.querySelector('.filter-type-1 input[placeholder="Любая"]') as HTMLInputElement)?.value || '',
+        priceFrom: (document.querySelector('.filter-type-2 input[placeholder="От"]') as HTMLInputElement)?.value || '',
+        priceTo: (document.querySelectorAll('.filter-type-2 input[placeholder="До"]')[0] as HTMLInputElement)?.value || '',
+        yearFrom: (document.querySelectorAll('.filter-type-2 input[placeholder="От"]')[1] as HTMLInputElement)?.value || '',
+        yearTo: (document.querySelectorAll('.filter-type-2 input[placeholder="До"]')[1] as HTMLInputElement)?.value || '',
+        mileageFrom: (document.querySelectorAll('.filter-type-2 input[placeholder="От"]')[2] as HTMLInputElement)?.value || '',
+        mileageTo: (document.querySelectorAll('.filter-type-2 input[placeholder="До"]')[2] as HTMLInputElement)?.value || '',
+        transmission: (document.querySelectorAll('.filter-type-1 input[placeholder="Любая"]')[1] as HTMLInputElement)?.value || '',
+        driveType: (document.querySelectorAll('.filter-type-1 input[placeholder="Любая"]')[2] as HTMLInputElement)?.value || '',
+        engineType: (document.querySelectorAll('.filter-type-1 input[placeholder="Любая"]')[3] as HTMLInputElement)?.value || '',
+        engineVolumeFrom: (document.querySelectorAll('.filter-type-2 input[placeholder="От"]')[3] as HTMLInputElement)?.value || '',
+        engineVolumeTo: (document.querySelectorAll('.filter-type-2 input[placeholder="До"]')[3] as HTMLInputElement)?.value || '',
+        powerFrom: (document.querySelectorAll('.filter-type-2 input[placeholder="От"]')[4] as HTMLInputElement)?.value || '',
+        powerTo: (document.querySelectorAll('.filter-type-2 input[placeholder="До"]')[4] as HTMLInputElement)?.value || '',
+        fuelConsumptionFrom: (document.querySelectorAll('.filter-type-2 input[placeholder="От"]')[5] as HTMLInputElement)?.value || '',
+        fuelConsumptionTo: (document.querySelectorAll('.filter-type-2 input[placeholder="До"]')[5] as HTMLInputElement)?.value || '',
+        accelerationFrom: (document.querySelectorAll('.filter-type-2 input[placeholder="От"]')[6] as HTMLInputElement)?.value || '',
+        accelerationTo: (document.querySelectorAll('.filter-type-2 input[placeholder="До"]')[6] as HTMLInputElement)?.value || '',
+        ownersFrom: (document.querySelectorAll('.filter-type-2 input[placeholder="От"]')[7] as HTMLInputElement)?.value || '',
+        ownersTo: (document.querySelectorAll('.filter-type-2 input[placeholder="До"]')[7] as HTMLInputElement)?.value || '',
+        seats: (document.querySelectorAll('.filter-type-1 input[placeholder="Любая"]')[4] as HTMLInputElement)?.value || '',
+        body: (document.querySelectorAll('.filter-type-1 input[placeholder="Любая"]')[5] as HTMLInputElement)?.value || '',
+        steering: (document.querySelectorAll('.filter-type-1 input[placeholder="Любая"]')[6] as HTMLInputElement)?.value || '',
+        color: (document.querySelectorAll('.filter-type-1 input[placeholder="Любая"]')[7] as HTMLInputElement)?.value || ''
+      };
+      onFilter(filters);
+    });
+  }
+  
+  // src/pages/HomePage.ts
+  import { Ad } from './Ad';
+  import { createAdCard } from './AdCard';
+  import { createAdFullView } from './AdFullView';
+  import { setupInfiniteScroll } from './InfiniteScroll';
+  import { setupFilter } from './Filter';
+  
+  let page = 1;
+  const pageSize = 10;
+  let filters: any = {};
+  
+  async function loadAds() {
+    const queryParams = new URLSearchParams({
+      page: String(page),
+      pageSize: String(pageSize),
+      ...(filters.brand && { brand: filters.brand }),
+      ...(filters.priceFrom && { priceFrom: filters.priceFrom }),
+      ...(filters.priceTo && { priceTo: filters.priceTo }),
+      ...(filters.yearFrom && { yearFrom: filters.yearFrom }),
+      ...(filters.yearTo && { yearTo: filters.yearTo }),
+      ...(filters.mileageFrom && { mileageFrom: filters.mileageFrom }),
+      ...(filters.mileageTo && { mileageTo: filters.mileageTo }),
+      ...(filters.transmission && { transmission: filters.transmission }),
+      ...(filters.driveType && { driveType: filters.driveType }),
+      ...(filters.engineType && { engineType: filters.engineType }),
+      ...(filters.engineVolumeFrom && { engineVolumeFrom: filters.engineVolumeFrom }),
+      ...(filters.engineVolumeTo && { engineVolumeTo: filters.engineVolumeTo }),
+      ...(filters.powerFrom && { powerFrom: filters.powerFrom }),
+      ...(filters.powerTo && { powerTo: filters.powerTo }),
+      ...(filters.fuelConsumptionFrom && { fuelConsumptionFrom: filters.fuelConsumptionFrom }),
+      ...(filters.fuelConsumptionTo && { fuelConsumptionTo: filters.fuelConsumptionTo }),
+      ...(filters.accelerationFrom && { accelerationFrom: filters.accelerationFrom }),
+      ...(filters.accelerationTo && { accelerationTo: filters.accelerationTo }),
+      ...(filters.ownersFrom && { ownersFrom: filters.ownersFrom }),
+      ...(filters.ownersTo && { ownersTo: filters.ownersTo }),
+      ...(filters.seats && { seats: filters.seats }),
+      ...(filters.body && { body: filters.body }),
+      ...(filters.steering && { steering: filters.steering }),
+      ...(filters.color && { color: filters.color })
+    });
+    const response = await fetch(`http://localhost:5500/ads?${queryParams}`);
+    if (!response.ok) throw new Error('Ошибка загрузки объявлений');
+    const ads: Ad[] = await response.json();
+    const adList = document.querySelector('.ad-list');
+    if (ads.length === 0) return; // No more ads to load
+    ads.forEach(ad => {
+      const card = createAdCard(ad, () => showFullAd(ad));
+      adList?.appendChild(card);
+    });
+    page++;
+  }
+  
+  function showFullAd(ad: Ad) {
+    const fullView = createAdFullView(ad, () => fullView.remove());
+    document.body.appendChild(fullView);
+  }
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    const adList = document.createElement('div');
+    adList.className = 'ad-list';
+    adList.style.marginTop = '60px'; // Below header
+    adList.style.display = 'flex';
+    adList.style.flexWrap = 'wrap';
+    adList.style.gap = '20px';
+    document.body.appendChild(adList);
+  
+    setupInfiniteScroll(adList, loadAds);
+    setupFilter((newFilters) => {
+      filters = newFilters;
+      page = 1;
+      adList.innerHTML = '';
+      loadAds();
+    });
+  
+    loadAds(); // Initial load
+  });

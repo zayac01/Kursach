@@ -10,7 +10,10 @@ export class AuthMiddleware implements IMiddleware {
 
     execute(req: Request, res: Response, next: NextFunction): void {
         // Пропускаем публичные маршруты
-        if (req.path === '/users/register' || req.path === '/users/login' || req.path === '/auth') {
+        if (req.path === '/users/register' ||
+            req.path === '/users/login' ||
+            req.path === '/auth' ||
+            req.path === '/ads') {
             return next();
         }
 
