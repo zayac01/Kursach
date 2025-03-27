@@ -7,7 +7,8 @@ export function createAdCard(ad, onClick) {
     card.style.border = '1px solid #ccc';
     card.style.padding = '10px';
     card.style.width = '200px';
-    const firstImage = ((_a = ad.images[0]) === null || _a === void 0 ? void 0 : _a.url) || 'placeholder.jpg';
+    // const firstImage = ((_a = ad.images[0]) === null || _a === void 0 ? void 0 : _a.url) || 'placeholder.jpg'; // 1
+    const firstImage = ad.images?.[0]?.url || 'placeholder.jpg';
     const img = document.createElement('img');
     img.src = firstImage;
     img.alt = `${ad.brand} ${ad.model}`;

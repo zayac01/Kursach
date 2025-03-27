@@ -13,7 +13,7 @@ export class AuthMiddleware implements IMiddleware {
         if (req.path === '/users/register' ||
             req.path === '/users/login' ||
             req.path === '/auth' ||
-            req.path === '/ads') {
+            (req.path === '/ads' && req.method === 'GET')) {
             return next();
         }
 

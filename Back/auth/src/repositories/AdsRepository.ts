@@ -58,6 +58,7 @@ export default class AdsRepository {
             orderBy: sort,
             skip: skip,
             take: take,
+            include: { images: true }, // хуета
         });
     }
 

@@ -106,7 +106,7 @@ export default class AdsController {
     try {
         const userId = req.user?.id;
         if (!userId) {
-            res.status(401).json({ error: "Unauthorized" });
+            res.status(401).json({ error: "Unauthorized | Server Error" });
             return;
         }
 

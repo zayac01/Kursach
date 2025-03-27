@@ -79,13 +79,14 @@ class AdFormHandler {
                 adData[key] = value;
             });
             adData.images = imageUrls; // Добавляем массив URL изображений
-
+            const token = localStorage.getItem('token');
+            console.log('Токен перед запросом:', token); 
             // Отправляем данные на сервер
             const response = await fetch('http://localhost:5500/ads', {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify(adData)
             });
@@ -100,6 +101,7 @@ class AdFormHandler {
                 alert("Ошибка от сервера")
 
                 const data = await response.json();
+                console.log(data)
                 // Ошибка от сервера, обработка опциональна
             }
         } catch (error) {
