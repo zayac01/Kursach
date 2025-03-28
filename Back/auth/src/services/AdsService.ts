@@ -1,6 +1,6 @@
 // src/services/AdsService.ts
 import { injectable, inject } from "inversify";
-import ImageKit from "imagekit";
+import cloudinary from "cloudinary";
 import AdsRepository from "../repositories/AdsRepository";
 import { TYPES } from "../types";
 import { CreateAdDTO } from "../dtos/CreateAdDTO";
@@ -8,19 +8,24 @@ import { UpdateAdDTO } from "../dtos/UpdateAdDTO";
 import { Ad } from "@prisma/client";
 import { IConfigService } from "../config/config.service.interface";
 import multer from "multer";
+import { Readable } from "node:stream";
+
+
+export interface IImageUploadService {
+    uploadImages(files: Express.Multer.File[]): Promise<string[]>;
+}
 
 @injectable()
 export default class AdsService {
-    private imagekit: ImageKit;
 
     constructor(
         @inject(TYPES.AdsRepository) private adsRepository: AdsRepository,
         @inject(TYPES.ConfigService) private configService: IConfigService
     ) {
-        this.imagekit = new ImageKit({
-            publicKey: this.configService.get('IMAGEKIT_PUBLIC_KEY'),
-            privateKey: this.configService.get('IMAGEKIT_PRIVATE_KEY'),
-            urlEndpoint: this.configService.get('IMAGEKIT_URL_ENDPOINT'),
+        cloudinary.v2.config({
+            cloud_name: this.configService.get("CLOUDINARY_CLOUD_NAME"),
+            api_key: this.configService.get("CLOUDINARY_API_KEY"),
+            api_secret: this.configService.get("CLOUDINARY_API_SECRET"),
         });
     }
 
@@ -75,16 +80,33 @@ export default class AdsService {
         return await this.adsRepository.createAd(adData);
     }
 
+    // private async uploadImages(files: Express.Multer.File[]): Promise<string[]> {
+    //     const uploadPromises = files.map(file => {
+    //         return this.imagekit.upload({
+    //             file: file.buffer,
+    //             fileName: file.originalname,
+    //         });
+    //     });
+    //     const responses = await Promise.all(uploadPromises);
+    //     console.log('URL изображений от ImageKit:', (res: { url: any; }) => res.url);
+    //     return responses.map((res: { url: any; }) => res.url);
+    // }
+
     private async uploadImages(files: Express.Multer.File[]): Promise<string[]> {
         const uploadPromises = files.map(file => {
-            return this.imagekit.upload({
-                file: file.buffer,
-                fileName: file.originalname,
+            return new Promise<string>((resolve, reject) => {
+                const uploadStream = cloudinary.v2.uploader.upload_stream(
+                    { folder: "FirstFolder" }, // Папка в Cloudinary
+                    (error, result) => {
+                        if (error) reject(error);
+                        else resolve(result!.secure_url);
+                    }
+                );
+                const bufferStream = Readable.from(file.buffer);
+                bufferStream.pipe(uploadStream);
             });
         });
-        const responses = await Promise.all(uploadPromises);
-        console.log('URL изображений от ImageKit:', (res: { url: any; }) => res.url);
-        return responses.map((res: { url: any; }) => res.url);
+        return await Promise.all(uploadPromises);
     }
 
     async getAdById(id: number): Promise<Ad | null> {

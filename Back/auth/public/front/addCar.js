@@ -26,62 +26,54 @@ class AdFormHandler {
             return;
         }
 
-        // Получаем параметры аутентификации от сервера
-        let authParams;
-        try {
-            const response = await fetch('http://localhost:5500/auth');
-            authParams = await response.json();
-        } catch (error) {
-            // Ошибка получения параметров, выходим (можно добавить обработку)
-            this.preload.style.display = 'none';
-            return;
-        }
-
-        // Настраиваем ImageKit
-        const imagekit = new ImageKit({
-            publicKey: 'public_c3jSvrlv3iH5+hdRLooMtczaVqc=', // Замените на ваш публичный ключ
-            urlEndpoint: 'https://ik.imagekit.io/m3eeklh9r/VarCar-Img'
+        // Настраиваем Cloudinary Upload Widget
+        const widget = cloudinary.createUploadWidget({
+            cloudName: 'di2irrwgs', // Замените на ваше cloud_name
+            uploadPreset: 'Signed', // Замените на ваш upload preset
+            folder: 'FirstFolder', // Папка в Cloudinary
+            multiple: true,
+            maxFiles: 11,
+        }, (error, result) => {
+            if (error) {
+                console.error('Ошибка в виджете Cloudinary:', error);
+                alert('Ошибка загрузки изображений');
+                this.preload.style.display = 'none';
+                return;
+            }
+            if (result && result.event === "success") {
+                const imageUrls = result.info.files ? result.info.files.map(file => file.url) : [result.info.url];
+                this.uploadImagesToServer(imageUrls);
+            } else {
+                console.log('Неожиданный результат от виджета:', result);
+                this.preload.style.display = 'none'; // Скрываем прелоадер, если событие не "success"
+            }
         });
 
-        // Получаем файлы из формы
-        const fileInput = this.form.querySelector('input[type="file"]');
-        const files = fileInput?.files;
-        if (!files || files.length === 0) {
-            // Файлы не выбраны, выходим (можно добавить обработку)
+        // Открываем виджет для загрузки
+        widget.open().then(() => {
+            clearTimeout(timeout);
             this.preload.style.display = 'none';
-            return;
-        }
-
-        // Загружаем изображения в ImageKit
-        const uploadPromises = Array.from(files).map(file => {
-            return new Promise((resolve, reject) => {
-                imagekit.upload({
-                    file: file,
-                    fileName: file.name,
-                    token: authParams.token,
-                    signature: authParams.signature,
-                    expire: authParams.expire,
-                    folder: '/VarCar-Img'
-                }, (err, result) => {
-                    if (err) reject(err);
-                    else resolve(result.url);
-                });
-            });
+        }).catch(error => {
+            clearTimeout(timeout);
+            console.error('Ошибка при открытии виджета:', error);
+            this.preload.style.display = 'none';
         });
+    }
 
+    async uploadImagesToServer(imageUrls) {
+        // Собираем данные формы
+        const formData = new FormData(this.form);
+        const adData = {};
+        formData.forEach((value, key) => {
+            adData[key] = value;
+        });
+        adData.images = imageUrls; // Добавляем массив URL изображений
+
+        const token = localStorage.getItem('token');
+        console.log('Токен перед запросом:', token);
+
+        // Отправляем данные на сервер
         try {
-            const imageUrls = await Promise.all(uploadPromises);
-
-            // Собираем данные формы
-            const formData = new FormData(this.form);
-            const adData = {};
-            formData.forEach((value, key) => {
-                adData[key] = value;
-            });
-            adData.images = imageUrls; // Добавляем массив URL изображений
-            const token = localStorage.getItem('token');
-            console.log('Токен перед запросом:', token); 
-            // Отправляем данные на сервер
             const response = await fetch('http://localhost:5500/ads', {
                 method: 'POST',
                 headers: {
@@ -93,20 +85,18 @@ class AdFormHandler {
 
             if (response.ok) {
                 // Успешно, перенаправляем без уведомления
-                alert("Успешно")
+                alert("Успешно");
                 setTimeout(() => {
                     window.location.href = '../sheets/main.html';
                 }, 2000);
             } else {
-                alert("Ошибка от сервера")
-
+                alert("Ошибка от сервера");
                 const data = await response.json();
-                console.log(data)
-                // Ошибка от сервера, обработка опциональна
+                console.log(data);
             }
         } catch (error) {
-            alert("Общая ошибка")
-            // Общая ошибка, обработка опциональна
+            alert("Общая ошибка");
+            console.error(error);
         } finally {
             this.preload.style.display = 'none';
         }

@@ -896,6 +896,7 @@ div#preload {
 }
 
 .profile-block {
+  margin-top: 100px;
   display: grid;
   grid-template-columns: auto;
   grid-template-columns: auto;

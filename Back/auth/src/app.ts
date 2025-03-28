@@ -12,10 +12,10 @@ import { UserController } from './users/user.controller';
 import { PrismaService } from './database/prisma.service';
 import { AuthMiddleware } from './command/auth.middleware';
 import cors from 'cors';
+import cloudinary from 'cloudinary';
 import path from 'path';
 import AdsController from './controllers/AdsController';
 import {UsersRepository} from './users/users.repo'
-import ImageKit from 'imagekit';
 import { ProfileController } from './profile/profile.controller';
 import { IArticlesRepository } from './articles/articles.interface.repo';
 import { IAdsProfileRepository } from './profile/ads.repo';
@@ -27,7 +27,6 @@ export class App {
 	app: Express;
 	server: Server;
 	port: number;
-	private imagekit: ImageKit;
 
 	constructor(
 		@inject(TYPES.ILogger) private logger: ILogger,
@@ -44,19 +43,19 @@ export class App {
 	) {
 		this.app = express();
 		this.port = 5500;
-		const publicKey = process.env.PUBLIC_KEY;
-		const privateKey = process.env.PRIVATE_KEY;
-		const urlEndpoint = process.env.URL_ENDPOINT;
+		const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
+        const apiKey = process.env.CLOUDINARY_API_KEY;
+        const apiSecret = process.env.CLOUDINARY_API_SECRET;
 
-		if (!publicKey || !privateKey || !urlEndpoint) {
-			throw new Error('Необходимо задать PUBLIC_KEY, PRIVATE_KEY и URL_ENDPOINT в файле .env');
-		}
+		if (!cloudName || !apiKey || !apiSecret) {
+            throw new Error('Необходимо задать CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY и CLOUDINARY_API_SECRET в файле .env');
+        }
 
-		this.imagekit = new ImageKit({
-			publicKey: publicKey,
-			privateKey: privateKey,
-			urlEndpoint: urlEndpoint,
-		});
+		cloudinary.v2.config({
+            cloud_name: cloudName,
+            api_key: apiKey,
+            api_secret: apiSecret,
+        });
 	}
 	
 
@@ -80,15 +79,6 @@ export class App {
 		this.app.use('/', this.profileController.router);
 		this.app.get('/profile', (req, res) => {
 			res.sendFile(path.join(__dirname, '..', 'public', 'profile.html'));
-		});
-		this.app.get('/auth', (req, res) => {
-			try {
-				const authParams = this.imagekit.getAuthenticationParameters();
-				res.json(authParams);
-			} catch (error) {
-				this.logger.error('Ошибка при генерации параметров аутентификации:', error);
-				res.status(500).json({ error: 'Не удалось сгенерировать параметры аутентификации' });
-			}
 		});
 	}
 
