@@ -110,7 +110,7 @@ export default class AdsController {
             return;
         }
 
-        const { images, ...adData } = req.body; // Извлекаем URL изображений (если есть) и остальные данные
+        const { imageUrls, ...adData } = req.body; // Извлекаем URL изображений (если есть) и остальные данные
         const files = req.files as Express.Multer.File[] | undefined; // Файлы из multer (если есть)
 
         const data: CreateAdDTO = {
@@ -118,15 +118,16 @@ export default class AdsController {
             options: Array.isArray(adData.options) ? adData.options : [adData.options],
             purchaseDate: new Date(adData.purchaseDate),
             userId: userId,
+            imageUrls: imageUrls,
         };
 
         // Проверяем, что переданы либо файлы, либо URL изображений
-        if ((!files || files.length === 0) && (!images || !Array.isArray(images) || !images.every(url => typeof url === 'string'))) {
-            res.status(400).json({ error: "Необходимо передать либо файлы, либо массив URL изображений" });
-            return;
-        }
+        // if ((!files || files.length === 0) && (!images || !Array.isArray(images) || !images.every(url => typeof url === 'string'))) {
+        //     res.status(400).json({ error: "Необходимо передать либо файлы, либо массив URL изображений" });
+        //     return;
+        // }
 
-        const ad = await this.adsService.createAd(data, files, images);
+        const ad = await this.adsService.createAd(data);
         res.status(201).json(ad);
     } catch (error) {
         if (error instanceof Error) {

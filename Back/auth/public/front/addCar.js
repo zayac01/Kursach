@@ -28,9 +28,9 @@ class AdFormHandler {
 
         // Настраиваем Cloudinary Upload Widget
         const widget = cloudinary.createUploadWidget({
-            cloudName: 'di2irrwgs', // Замените на ваше cloud_name
-            uploadPreset: 'Signed', // Замените на ваш upload preset
-            folder: 'FirstFolder', // Папка в Cloudinary
+            cloudName: 'di2irrwgs',
+            uploadPreset: 'FirstFolder',
+            folder: 'VarCar',
             multiple: true,
             maxFiles: 11,
         }, (error, result) => {
@@ -45,18 +45,28 @@ class AdFormHandler {
                 this.uploadImagesToServer(imageUrls);
             } else {
                 console.log('Неожиданный результат от виджета:', result);
-                this.preload.style.display = 'none'; // Скрываем прелоадер, если событие не "success"
+                this.preload.style.display = 'none'; 
             }
         });
 
         // Открываем виджет для загрузки
-        widget.open().then(() => {
-            clearTimeout(timeout);
-            this.preload.style.display = 'none';
-        }).catch(error => {
-            clearTimeout(timeout);
-            console.error('Ошибка при открытии виджета:', error);
-            this.preload.style.display = 'none';
+        // widget.open().then(() => {
+        //     clearTimeout(timeout);
+        //     this.preload.style.display = 'none';
+        // }).catch(error => {
+        //     clearTimeout(timeout);
+        //     console.error('Ошибка при открытии виджета:', error);
+        //     this.preload.style.display = 'none';
+        // });
+        // widget.open();
+        // widget.on('close', () => {
+        // clearTimeout(timeout); 
+        // this.preload.style.display = 'none';
+// });
+
+        widget.open();
+        widget.on('close', () => {
+        this.preload.style.display = 'none';
         });
     }
 
@@ -67,10 +77,9 @@ class AdFormHandler {
         formData.forEach((value, key) => {
             adData[key] = value;
         });
-        adData.images = imageUrls; // Добавляем массив URL изображений
+        adData.imageUrls = imageUrls;
 
         const token = localStorage.getItem('token');
-        console.log('Токен перед запросом:', token);
 
         // Отправляем данные на сервер
         try {

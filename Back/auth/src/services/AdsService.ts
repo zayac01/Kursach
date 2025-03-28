@@ -36,48 +36,66 @@ export default class AdsService {
             throw new Error("Объявление с такими VIN, СТС и госномером уже существует");
         }
 
-        const yearValue = typeof data.year === 'string' ? data.year : String(data.year);
-        const parsedYear = parseInt(yearValue, 10);
-        const mileageValue = typeof data.mileage === 'string' ? data.mileage : String(data.mileage);
-        const parsedMileage = parseInt(mileageValue, 10);
-        const ownersValue = typeof data.owners === 'string' ? data.owners : String(data.owners);
-        const parsedOwners = parseInt(ownersValue, 10);
-        const priceeValue = typeof data.price === 'string' ? data.price : String(data.price);
-        const parsedPricee = parseInt(priceeValue, 10);
+        // const yearValue = typeof data.year === 'string' ? data.year : String(data.year);
+        // const parsedYear = parseInt(yearValue, 10);
+        // const mileageValue = typeof data.mileage === 'string' ? data.mileage : String(data.mileage);
+        // const parsedMileage = parseInt(mileageValue, 10);
+        // const ownersValue = typeof data.owners === 'string' ? data.owners : String(data.owners);
+        // const parsedOwners = parseInt(ownersValue, 10);
+        // const priceeValue = typeof data.price === 'string' ? data.price : String(data.price);
+        // const parsedPricee = parseInt(priceeValue, 10);
 
     
-        // Парсинг данных
+        // // Парсинг данных
+        // const parsedData: CreateAdDTO = {
+        //     ...data,
+        //     year: parsedYear,
+        //     mileage: parsedMileage,
+        //     owners: parsedOwners,
+        //     price: parsedPricee,
+        //     purchaseDate: new Date(data.purchaseDate),
+        // };
+
         const parsedData: CreateAdDTO = {
             ...data,
-            year: parsedYear,
-            mileage: parsedMileage,
-            owners: parsedOwners,
-            price: parsedPricee,
+            year: parseInt(data.year.toString(), 10),
+            mileage: parseInt(data.mileage.toString(), 10),
+            owners: parseInt(data.owners.toString(), 10),
+            price: parseInt(data.price.toString(), 10),
             purchaseDate: new Date(data.purchaseDate),
         };
-
-        // Обработка изображений
-        let finalImageUrls: string[] = [];
-        if (files && files.length > 0) {
-            finalImageUrls = await this.uploadImages(files);
-        }
-        if (imageUrls && imageUrls.length > 0) {
-            finalImageUrls = [...finalImageUrls, ...imageUrls];
-        }
-        if (finalImageUrls.length === 0) {
-            throw new Error("Необходимо передать хотя бы одно изображение");
-        }
     
-        // Формирование данных для создания объявления
-        const adData: CreateAdDTO = {
+        const adData = {
             ...parsedData,
             images: {
-                create: finalImageUrls.map(url => ({ url })),
+                create: data.imageUrls.map(url => ({ url })), // Create image records with URLs
             },
         };
     
-        // Создание объявления
         return await this.adsRepository.createAd(adData);
+
+        // Обработка изображений
+        // let finalImageUrls: string[] = [];
+        // if (files && files.length > 0) {
+        //     finalImageUrls = await this.uploadImages(files);
+        // }
+        // if (imageUrls && imageUrls.length > 0) {
+        //     finalImageUrls = [...finalImageUrls, ...imageUrls];
+        // }
+        // if (finalImageUrls.length === 0) {
+        //     throw new Error("Необходимо передать хотя бы одно изображение");
+        // }
+    
+        // // Формирование данных для создания объявления
+        // const adData: CreateAdDTO = {
+        //     ...parsedData,
+        //     images: {
+        //         create: finalImageUrls.map(url => ({ url })),
+        //     },
+        // };
+    
+        // // Создание объявления
+        // return await this.adsRepository.createAd(adData);
     }
 
     // private async uploadImages(files: Express.Multer.File[]): Promise<string[]> {

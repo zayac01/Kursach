@@ -2,7 +2,8 @@
 export function createAdCard(ad, onClick) {
     var _a;
     const card = document.createElement('div');
-    card.className = 'ad-card';
+    // card.className = 'ad-card';
+    card.className = 'offer';
     card.style.cursor = 'pointer';
     card.style.border = '1px solid #ccc';
     card.style.padding = '10px';

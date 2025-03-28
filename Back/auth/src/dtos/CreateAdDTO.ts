@@ -22,5 +22,7 @@ export interface CreateAdDTO {
   vin: string;
   sts: string;
   userId: number;
-  images?: { create: { url: string }[] };
+  imageUrls: string[];
+  // images?: { create: { url: string }[] };
+
 }

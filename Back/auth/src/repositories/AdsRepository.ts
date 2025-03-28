@@ -43,7 +43,10 @@ export default class AdsRepository {
                 vin: data.vin,
                 sts: data.sts,
                 userId: data.userId,
-                images: data.images,
+                // images: data.images,
+                images: {
+                    create: data.images.create, // Save image URLs
+                },
             },
         });
     }
