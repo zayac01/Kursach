@@ -36,7 +36,6 @@ class AdFormHandler {
         }, (error, result) => {
             if (error) {
                 console.error('Ошибка в виджете Cloudinary:', error);
-                alert('Ошибка загрузки изображений');
                 this.preload.style.display = 'none';
                 return;
             }
@@ -99,12 +98,10 @@ class AdFormHandler {
                     window.location.href = '../sheets/main.html';
                 }, 2000);
             } else {
-                alert("Ошибка от сервера");
                 const data = await response.json();
                 console.log(data);
             }
         } catch (error) {
-            alert("Общая ошибка");
             console.error(error);
         } finally {
             this.preload.style.display = 'none';

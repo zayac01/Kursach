@@ -30,13 +30,13 @@ async function loadAds() {
             throw new Error('Ошибка загрузки объявлений');
         }
         const ads = await response.json();
-        console.log('Данные с бэкенда:', ads);
+        console.log('Данные с бэка:', ads);
         const adList = document.querySelector('.offers');
         if (!adList) {
-            console.error('Контейнер .offers не найден в HTML');
+            console.error('.offers нету');
             return;
         }
-        if (ads.length === 0) return; // No more ads to load ------- NONE WORKING
+        if (ads.length === 0) return; // Если нет картОЧЕК, то не грузит снова ------- NONE WORKING?
         ads.forEach(ad => {
             const card = createAdCard(ad, () => showFullAd(ad));
             adList?.appendChild(card);
@@ -60,9 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const offers = document.createElement('div');
     offers.className = 'offers';
-    offers.style.display = 'flex';
-    offers.style.flexWrap = 'wrap';
-    offers.style.gap = '20px';
+    // offers.style.display = 'flex';
+    // offers.style.flexWrap = 'wrap';
+    // offers.style.gap = '20px';
 
     container.appendChild(offers);
     section.appendChild(container);

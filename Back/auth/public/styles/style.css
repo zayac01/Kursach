@@ -382,21 +382,25 @@ input {
     "img-blc-crd"
     "btn-blc-crd"
     "char-blc-crd"
-    "map-blc-crd"
     "about-blc-crd";
-  gap: 20px;
-  /* align-items: center; */
+  gap: 40px;
+  max-width: 1000px;
+  max-height: 600px;
 }
 
 .name-and-cost-selected-card-block {
   display: grid;
   grid-area: name-blc-crd;
-  background-color: #d9d9d9;
-  border-radius: 5px;
+  background-color: #ffffff;
+  -webkit-box-shadow: 0px 0px 20px 0px rgba(34, 60, 80, 0.34);
+  -moz-box-shadow: 0px 0px 20px 0px rgba(34, 60, 80, 0.34);
+  box-shadow: 0px 0px 20px 0px rgba(34, 60, 80, 0.34);
+  border-radius: 10px;
   grid-template-columns: 1fr 1fr;
   grid-template-areas: "name-seled-card cost-of-seled-card";
   align-items: center;
   padding: 20px;
+
 }
 
 .name-selected-card {
@@ -422,21 +426,53 @@ input {
   display: grid;
   grid-area: img-blc-crd;
   background-color: #d9d9d9;
-  border-radius: 5px;
+  border-radius: 10px;
+  grid-template-areas: 
+  "main-slides"
+  "slides";
 }
+
+.img-slider-selected-card {
+  margin-top: 15px;
+  display: grid;
+  grid-area: slides;
+  grid-template-columns: auto-fill;
+  grid-template-rows: auto-fill;
+  grid-auto-flow: column;
+  justify-content: space-between;
+}
+
+.img-slider-selected-card img{
+  width: 180px;
+  height: 130px;
+  border-radius: 10px;
+}
+
+.main {
+  display: grid;
+  grid-area: main-slides;
+  max-width: 1000px;
+  max-height: 600px;
+}
+
+.main img{
+  width: 1000px;
+  height: 600px;
+  border-radius: 10px;
+}
+
 .btn-selected-card-block {
   display: grid;
   grid-area: btn-blc-crd;
   justify-items: start;
-  /* width: 100%; */
   max-width: 310px;
 }
 
-/* .btn-selected-card-block button {
+.btn-selected-card-block button {
   background-color: #ff8336;
   border-radius: 5px;
   width: 100%;
-} */
+}
 
 .char-selected-card-block {
   display: grid;
@@ -444,22 +480,26 @@ input {
   grid-template-columns: auto;
   grid-template-rows: auto 1fr;
   grid-auto-flow: row;
-  gap: 10px;
+  gap: 20px;
+  
 }
 .char-selected-card-block-name {
   display: grid;
-  border-radius: 5px;
+  border-radius: 10px;
 }
 .char-selected-card-block-value {
   display: grid;
-  background-color: #d9d9d9;
-  border-radius: 5px;
+  border-radius: 10px;
   grid-template-columns: auto-fill;
   grid-template-rows: auto-fill;
   grid-auto-flow: column;
   padding: 10px;
   justify-content: space-around;
   gap: 5px;
+  background-color: #ffffff;
+  -webkit-box-shadow: 0px 0px 20px 0px rgba(34, 60, 80, 0.34);
+  -moz-box-shadow: 0px 0px 20px 0px rgba(34, 60, 80, 0.34);
+  box-shadow: 0px 0px 20px 0px rgba(34, 60, 80, 0.34);
 }
 
 .char-value-column {
@@ -470,17 +510,14 @@ input {
   display: grid;
 }
 
-.map-selected-card-block {
-  display: grid;
-  grid-area: map-blc-crd;
-  background-color: #d9d9d9;
-  border-radius: 5px;
-}
 .about-selected-card-block {
   display: grid;
   grid-area: about-blc-crd;
-  background-color: #d9d9d9;
-  border-radius: 5px;
+  -webkit-box-shadow: 0px 0px 20px 0px rgba(34, 60, 80, 0.34);
+  -moz-box-shadow: 0px 0px 20px 0px rgba(34, 60, 80, 0.34);
+  box-shadow: 0px 0px 20px 0px rgba(34, 60, 80, 0.34);
+  border-radius: 10px;
+  padding: 10px;
 }
 
 .registr {
@@ -1023,4 +1060,8 @@ div#preload {
   padding: 10px;
   gap: 20px;
   border-radius: 10px;
+}
+
+.no-scroll {
+  overflow: hidden;
 }

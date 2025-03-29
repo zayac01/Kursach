@@ -23,8 +23,6 @@ export function createAdCard(ad, onClick) {
 
     const aboutBlock = document.createElement('div');
     aboutBlock.className = 'about-block-offer';
-    // const h3 = document.createElement('h3');
-    // h3.textContent = `${ad.brand} ${ad.model} ${ad.generation || ''}`;
     const yearP = document.createElement('p');
     yearP.textContent = `Год: ${ad.year}`;
     const mileageP = document.createElement('p');
@@ -37,8 +35,6 @@ export function createAdCard(ad, onClick) {
     bodyP.textContent = `Кузов: ${ad.body}`;
     const steeringP = document.createElement('p');
     steeringP.textContent = `Руль: ${ad.engineType.includes('right') ? 'Правый' : 'Левый'}`;
-    // const priceP = document.createElement('p');
-    // priceP.textContent = `Стоимость: ${ad.price} руб.`;
     aboutBlock.append(yearP, mileageP, engineP, driveP, bodyP, steeringP);
 
     const priceBlock = document.createElement('div');
